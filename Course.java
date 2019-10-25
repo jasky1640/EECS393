@@ -7,12 +7,12 @@ public class Course
   private String courseName;
   private String timeSlot;
   private String information;
-  private String prerequisite;
+  private int prerequisite;
   private int courseType;
   private int substituteID;
   
   public Course(int courseIDs, String courseCodes, String courseNames, String timeSlots, 
-                String informations, String prerequisites, int courseTypes,int substituteIDs)
+                String informations, int prerequisites, int courseTypes,int substituteIDs)
   {
     courseID = courseIDs;
     courseCode = courseCodes;
@@ -61,7 +61,7 @@ public class Course
     return information;
   }
   
-  public String getPrerequisite()
+  public int getPrerequisite()
   {
     return prerequisite;
   }
@@ -78,7 +78,7 @@ public class Course
   
   public String toString()
   {
-    return (courseID + "\t" + courseCode + "\t" + courseName + "\t" + timeSlot + "\t" + information + "\t" + 
-  prerequisite + "\t" + courseType + "\t" + substituteID);
+    return (courseID + "  " + courseCode + "  " + courseName + "  " + timeSlot + "  " + information + "  " + 
+  prerequisite + "  " + courseType + "  " + substituteID);
   }
 }

@@ -4,14 +4,14 @@ import java.util.*;
 public class userInfo
 {
   private String track;
-  private String [] courses;
+  private ArrayList<Integer> coursesTaken = new ArrayList<Integer>();
   private String username;
   
-  public userInfo(String userID, String trackChoice, String[] coursesTaken)
+  public userInfo(String userID, String trackChoice, ArrayList<Integer> courses)
   {
     username = userID;
     track = trackChoice;
-    courses = coursesTaken;
+    coursesTaken = courses;
   }
   
   public String getTrack()
@@ -19,9 +19,9 @@ public class userInfo
     return track;
   }
   
-  public String[] getCourses()
+  public ArrayList<Integer> getCourses()
   {
-    return courses;
+    return coursesTaken;
   }
   
   public String getUsername()
@@ -29,16 +29,34 @@ public class userInfo
     return username;
   }
   
+  public void updateTrack(String input)
+  {
+    track = input;
+  }
+    
+  public void updateUsername(String input)
+  {
+    username = input;
+  }
+  
+  public void updateCourses(ArrayList<Integer> input)
+  {
+    coursesTaken.clear();
+    coursesTaken.addAll(input);
+  }
+  
   public String toString()
   {
-    String stringArr = Arrays.toString(courses);
-    return (username + "\t" + track + "\t" + stringArr);
+    return (username + "\t" + track + "\t" + coursesTaken);
   }
   
   public static void main(String[] args)
    {
-    String [] courses = {"database", "data structure"};
-    userInfo sample = new userInfo("Jerry", "AI", courses);
+    ArrayList<Integer> coursesTaken = new ArrayList<Integer>();
+    coursesTaken.add(5);
+    coursesTaken.add(17);
+    coursesTaken.add(23);
+    userInfo sample = new userInfo("Jerry", "AI", coursesTaken);
     System.out.println(sample);
    }
 }
