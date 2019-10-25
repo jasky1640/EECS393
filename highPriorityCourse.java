@@ -211,7 +211,7 @@ public class highPriorityCourse extends Course
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 3; j++) {
         if (timeSlot1charArray[i]!='0' && timeSlot1charArray[i]==timeSlot2charArray[j]) {
-          //有相同日期需要进行比较了
+          //same date
           SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
           StringBuffer dateStr1_1 = new StringBuffer()
             .append(timeSlot1charArray[3])
@@ -246,11 +246,11 @@ public class highPriorityCourse extends Course
           long ss2 = s2.getTime();
           long ee2 = e2.getTime();
      
-          if (ss1-ss2<0) {//第一组早
+          if (ss1-ss2<0) {//first class is earlier
             ee1 = ee1 + 15*60*1000;
-          }else if(ss1-ss2>0){//第二组早
+          }else if(ss1-ss2>0){//second class is earlier
             ee2 = ee2 + 15*60*1000;
-          }else{//相等 必定冲突
+          }else{//if they are at the same time
             overlap = true;
             return overlap;
           }
