@@ -298,7 +298,7 @@ public class highPriorityCourse extends Course
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				if (timeSlot1charArray[i]!='0' && timeSlot1charArray[i]==timeSlot2charArray[j]) {
-					/if they have the same date
+					//if they have the same date
 					SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 					StringBuffer dateStr1_1 = new StringBuffer()
 							.append(timeSlot1charArray[3])
