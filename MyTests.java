@@ -103,5 +103,14 @@ public class MyTests
     userInfo user = new userInfo("Jerry", "AI", coursesTaken);
     assertEquals(true, test1.checkPrerequisite(test1, user), "should return true");
   }
+  
+  @Test
+  public void ifOverlapTest() throws Exception {
+    highPriorityCourse test1 = new highPriorityCourse(23, "EECS393", "Software Engineering", "13511401230",
+            "Instructor:Andy Podgurski", 5, 4, -1);
+    highPriorityCourse test2 = new highPriorityCourse(24, "EECS391", "Artificial Intelligence", "13513301445",
+            "Instructor:Michael Lewcki", 5, 4, -1);
+    assertEquals(false, test1.ifOverlap(test1.getTimeSlot(), test2.getTimeSlot()), "should return false");
+  }
 }
   
