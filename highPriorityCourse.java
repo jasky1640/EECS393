@@ -289,6 +289,73 @@ public class highPriorityCourse extends Course
       return output;
   }
   
+  public static boolean ifOverlap(String timeSlot1, String timeSlot2) throws Exception {
+		boolean overlap = false;
+		
+		char[] timeSlot1charArray = timeSlot1.toCharArray();
+		char[] timeSlot2charArray = timeSlot2.toCharArray();
+		
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				if (timeSlot1charArray[i]!='0' && timeSlot1charArray[i]==timeSlot2charArray[j]) {
+					/if they have the same date
+					SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+					StringBuffer dateStr1_1 = new StringBuffer()
+							.append(timeSlot1charArray[3])
+							.append(timeSlot1charArray[4])
+							.append(":")
+							.append(timeSlot1charArray[5])
+							.append(timeSlot1charArray[6]);
+					StringBuffer dateStr1_2 = new StringBuffer()
+							.append(timeSlot1charArray[7])
+							.append(timeSlot1charArray[8])
+							.append(":")
+							.append(timeSlot1charArray[9])
+							.append(timeSlot1charArray[10]);
+					StringBuffer dateStr2_1 = new StringBuffer()
+							.append(timeSlot2charArray[3])
+							.append(timeSlot2charArray[4])
+							.append(":")
+							.append(timeSlot2charArray[5])
+							.append(timeSlot2charArray[6]);
+					StringBuffer dateStr2_2 = new StringBuffer()
+							.append(timeSlot2charArray[7])
+							.append(timeSlot2charArray[8])
+							.append(":")
+							.append(timeSlot2charArray[9])
+							.append(timeSlot2charArray[10]);
+					Date s1 = sdf.parse(dateStr1_1.toString());
+					Date e1 = sdf.parse(dateStr1_2.toString());
+					Date s2 = sdf.parse(dateStr2_1.toString());
+					Date e2 = sdf.parse(dateStr2_2.toString());
+					long ss1 = s1.getTime();
+					long ee1 = e1.getTime();
+					long ss2 = s2.getTime();
+					long ee2 = e2.getTime();
+					
+					if (ss1-ss2<0) {//the first class is earlier
+						ee1 = ee1 + 15*60*1000;
+					}else if(ss1-ss2>0){//the second class is earlier
+						ee2 = ee2 + 15*60*1000;
+					}else{//if they are at the same time
+						overlap = true;
+						return overlap;
+					}
+					if ((ss1 < ss2) && (ee1 > ss2)) {
+						overlap = true;
+						return overlap;
+					} else if ((ss1 > ss2) && (ss1 < ee2)) {
+						overlap = true;
+						return overlap;
+					} else {
+						overlap = false;
+					}
+				}
+			}
+		}
+		return overlap;
+	}
+  
    public static void main(String[] args)
    {
     highPriorityCourse test1 = new highPriorityCourse(23, "EECS393", "Software Engineering", "MWF11:40-12:30", 
