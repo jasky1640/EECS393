@@ -224,7 +224,7 @@ public class highPriorityCourse extends Course
   public static ArrayList<Integer> getCSMRoptions(ArrayList<Integer> coursesTaken) // should return a list of CSMR courses 
     // still need to take
   {
-    highPriorityCourse.setCSMRCourses(EGERCourses);
+    highPriorityCourse.setCSMRCourses(CSMRCourses);
     ArrayList<Integer> output = new ArrayList<Integer>();
     output.addAll(CSMRCourses);
     output.removeAll(coursesTaken);
@@ -234,7 +234,7 @@ public class highPriorityCourse extends Course
   public static ArrayList<Integer> getCSCRoptions(ArrayList<Integer> coursesTaken) // should return a list of CSCR courses 
     // still need to take
   {
-    highPriorityCourse.setCSCRCourses(EGERCourses);
+    highPriorityCourse.setCSCRCourses(CSCRCourses);
     ArrayList<Integer> output = new ArrayList<Integer>();
     output.addAll(CSCRCourses);
     output.removeAll(coursesTaken);
@@ -244,7 +244,7 @@ public class highPriorityCourse extends Course
   public static ArrayList<Integer> getCSDRoptions(ArrayList<Integer> coursesTaken) // should return a list of CSDR courses 
     // still need to take
   {
-    highPriorityCourse.setCSDRCourses(EGERCourses);
+    highPriorityCourse.setCSDRCourses(CSDRCourses);
     ArrayList<Integer> output = new ArrayList<Integer>();
     output.addAll(CSDRCourses);
     output.removeAll(coursesTaken);
@@ -254,7 +254,7 @@ public class highPriorityCourse extends Course
   public static ArrayList<Integer> getCSBRoptions(ArrayList<Integer> coursesTaken) // should return a list of CSBR courses 
     // still need to take
   {
-    highPriorityCourse.setCSBRCourses(EGERCourses);
+    highPriorityCourse.setCSBRCourses(CSBRCourses);
     ArrayList<Integer> output = new ArrayList<Integer>();
     output.addAll(CSBRCourses);
     output.removeAll(coursesTaken);
@@ -264,7 +264,7 @@ public class highPriorityCourse extends Course
   public static ArrayList<Integer> getSRoptions(ArrayList<Integer> coursesTaken) // should return a list of SR courses 
     // still need to take
   {
-    highPriorityCourse.setSRCourses(EGERCourses);
+    highPriorityCourse.setSRCourses(SRCourses);
     ArrayList<Integer> output = new ArrayList<Integer>();
     output.addAll(SRCourses);
     output.removeAll(coursesTaken);
