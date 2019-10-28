@@ -19,8 +19,7 @@ compared to most of other majors since five different tracks could be selected a
 courses are no longer provided.
 
 # Requirements:
- User registration: Create new users, user information collection (courses taken, year of
-study)
+ User registration: Create new users, user information collection (courses taken, year of study)
+
  Automatic Scheduling: Based on entered preferences including the number of C.S. course
-credits intended to take, time slots unavailable, and other non-C.S. courses intended totake, the web application generates recommended schedules that consider course
-prerequisites, availability, and difficulty level.
+credits intended to take, time slots unavailable, and other non-C.S. courses intended totake, the web application generates recommended schedules that consider course prerequisites, availability, and difficulty level.
