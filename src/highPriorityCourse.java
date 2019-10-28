@@ -1,228 +1,154 @@
-import java.io.*;
 import java.util.*;
 
-public class highPriorityCourse extends Course
+public class HighPriorityCourse extends Course
 {
-  private static final int MAX_NUM_COURSES = 5;
-  private static int numOfFullPlans = 0;
-  private int courseID;
-  private String courseCode;
-  private String courseName;
-  private String timeSlot;
-  private String information;
-  private int prerequisite;
-  private int courseType;
-  private int substituteID;
-  
-  private static ArrayList<Integer> EGERCourses = new ArrayList<Integer>();
-  private static ArrayList<Integer> CSMRCourses = new ArrayList<Integer>();
-  private static ArrayList<Integer> CSCRCourses = new ArrayList<Integer>();
-  private static ArrayList<Integer> CSDRCourses = new ArrayList<Integer>();
-  private static ArrayList<Integer> CSBRCourses = new ArrayList<Integer>();
-  private static ArrayList<Integer> SRCourses = new ArrayList<Integer>();
-  private static ArrayList<ArrayList<Integer>> plans = new ArrayList<ArrayList<Integer>>();
-  
+
+    private int courseID;
+    private int credit;
+    private String courseCode;
+    private String courseName;
+    private String timeSlot;
+    private String information;
+    private String prerequisite;
+    private String courseType;
+    private String substituteCourseCode;
+
+    private static ArrayList<Integer> EGERCourses = new ArrayList<>();
+    private static ArrayList<Integer> CSCRCourses = new ArrayList<>();
+    private static ArrayList<Integer> CSDRCourses = new ArrayList<>();
+    private static ArrayList<Integer> CSBRCourses = new ArrayList<>();
+    private static ArrayList<Integer> SRCourses = new ArrayList<>();
+    private static ArrayList<ArrayList<Integer>> plans = new ArrayList<>();
+
+    public static final int SE = 1;
+    public static final int AT = 2;
+    public static final int CSNS = 3;
+    public static final int DDM = 4;
+    public static final int BIO = 5;
+    public static final int AI = 6;
+
+
+
     public static void setEGERCourses(ArrayList<Integer> input) // only for testing purpose at this moment,
     // should get data from database in the end.
-  {
-    input.clear();
-    input.add(5);
-    input.add(9);
-    input.add(19);
-  }
-  
-    public static void setCSMRCourses(ArrayList<Integer> input) // only for testing purpose at this moment, 
-    // should get data from database in the end.
-  {
-    input.clear();
-    input.add(5);
-    input.add(9);
-    input.add(19);
-  }
-    
+    {
+        input.clear();
+        input.add(5);
+        input.add(9);
+        input.add(19);
+    }
+
     public static void setCSCRCourses(ArrayList<Integer> input) // only for testing purpose at this moment,
     // should get data from database in the end.
-  {
-    input.clear();
-    input.add(5);
-    input.add(9);
-    input.add(19);
-  }
-      
+    {
+        input.clear();
+        input.add(5);
+        input.add(9);
+        input.add(19);
+    }
+
     public static void setCSDRCourses(ArrayList<Integer> input) // only for testing purpose at this moment,
     // should get data from database in the end.
-  {
-    input.clear();
-    input.add(5);
-    input.add(9);
-    input.add(19);
-  }
-        
+    {
+        input.clear();
+        input.add(5);
+        input.add(9);
+        input.add(19);
+    }
+
     public static void setCSBRCourses(ArrayList<Integer> input) // only for testing purpose at this moment,
     // should get data from database in the end.
-  {
-    input.clear();
-    input.add(5);
-    input.add(9);
-    input.add(19);
-  }
-        
+    {
+        input.clear();
+        input.add(5);
+        input.add(9);
+        input.add(19);
+    }
+
     public static void setSRCourses(ArrayList<Integer> input) // only for testing purpose at this moment,
     // should get data from database in the end.
-  {
-    input.clear();
-    input.add(5);
-    input.add(9);
-    input.add(19);
-  }
-  
-  public highPriorityCourse(int courseIDs, String courseCodes, String courseNames, String timeSlots, 
-                String informations, int prerequisites, int courseTypes,int substituteIDs)  // constructor
-  {
-    super(courseIDs, courseCodes, courseNames,timeSlots, informations, prerequisites, courseTypes, substituteIDs);
-    courseID = courseIDs;
-    courseCode = courseCodes;
-    courseName = courseNames;
-    timeSlot = timeSlots;
-    information = informations;
-    prerequisite = prerequisites;
-    courseType = courseTypes;
-    substituteID = substituteIDs;
-  }
-  
-  public String toString()
-  {
-    return super.toString();
-  }
-  
-      public String getUserName(userInfo input)
-  {
-    return input.getUsername();
-  }
-  
-    public String getUserTrack(userInfo input)
-  {
-    return input.getTrack();
-  }
-  
-  public ArrayList<Integer> getUserCourses(userInfo input)
-  {
-    return input.getCourses();
-  }
-  
-   public userInfo getUserInfo(userInfo input)
-  {
-    return input;
-  }
-   
-   public static ArrayList<Integer> getHpCourses() // should return a list of all high priority courses
-   {
-     ArrayList<Integer> output = new ArrayList<Integer>();
-     output.addAll(EGERCourses);
-     output.addAll(CSMRCourses);
-     output.addAll(CSCRCourses);
-     output.addAll(CSDRCourses);
-     output.addAll(SRCourses);
-     return output;
-   }
-  
-  public static ArrayList<Integer> getEGERoptions(ArrayList<Integer> coursesTaken) // should return a list of EGER courses 
-    // still need to take
-  {
-    highPriorityCourse.setEGERCourses(EGERCourses);
-    ArrayList<Integer> output = new ArrayList<Integer>();
-    output.addAll(EGERCourses);
-    output.removeAll(coursesTaken);
-    return output;
-  }
-  
-  public static ArrayList<Integer> getCSMRoptions(ArrayList<Integer> coursesTaken) // should return a list of CSMR courses 
-    // still need to take
-  {
-    highPriorityCourse.setCSMRCourses(CSMRCourses);
-    ArrayList<Integer> output = new ArrayList<Integer>();
-    output.addAll(CSMRCourses);
-    output.removeAll(coursesTaken);
-    return output;
-  }
-  
-  public static ArrayList<Integer> getCSCRoptions(ArrayList<Integer> coursesTaken) // should return a list of CSCR courses 
-    // still need to take
-  {
-    highPriorityCourse.setCSCRCourses(CSCRCourses);
-    ArrayList<Integer> output = new ArrayList<Integer>();
-    output.addAll(CSCRCourses);
-    output.removeAll(coursesTaken);
-    return output;
-  }
-  
-  public static ArrayList<Integer> getCSDRoptions(ArrayList<Integer> coursesTaken) // should return a list of CSDR courses 
-    // still need to take
-  {
-    highPriorityCourse.setCSDRCourses(CSDRCourses);
-    ArrayList<Integer> output = new ArrayList<Integer>();
-    output.addAll(CSDRCourses);
-    output.removeAll(coursesTaken);
-    return output;
-  }
-  
-  public static ArrayList<Integer> getCSBRoptions(ArrayList<Integer> coursesTaken) // should return a list of CSBR courses 
-    // still need to take
-  {
-    highPriorityCourse.setCSBRCourses(CSBRCourses);
-    ArrayList<Integer> output = new ArrayList<Integer>();
-    output.addAll(CSBRCourses);
-    output.removeAll(coursesTaken);
-    return output;
-  }
-  
-  public static ArrayList<Integer> getSRoptions(ArrayList<Integer> coursesTaken) // should return a list of SR courses 
-    // still need to take
-  {
-    highPriorityCourse.setSRCourses(SRCourses);
-    ArrayList<Integer> output = new ArrayList<Integer>();
-    output.addAll(SRCourses);
-    output.removeAll(coursesTaken);
-    return output;
-  }
-  
-  public static boolean checkPrerequisite(Course course, userInfo user) // return true if the input course has no prerequisite or the user has already taken the prerequisite, 
-    // return false otherwise.
-  {
-    boolean output = false;
-    if (course.getPrerequisite() == 0)
     {
-      output = true;
-      return output;
+        input.clear();
+        input.add(5);
+        input.add(9);
+        input.add(19);
     }
-    else if (user.getCourses().contains(course.getPrerequisite()) == true)
+
+    public HighPriorityCourse(int courseIDs,int credit, String courseCodes, String courseNames, String timeSlots,
+                              String informations, String prerequisites, String courseType, String substituteCourseCode)  // constructor
     {
-      output = true;
-      return output;
+        super(courseIDs, credit, courseCodes, courseNames,timeSlots, prerequisites, courseType, substituteCourseCode);
+        courseID = courseIDs;
+        courseCode = courseCodes;
+        courseName = courseNames;
+        timeSlot = timeSlots;
+        information = informations;
+        prerequisite = prerequisites;
+        courseType = courseType;
+        substituteCourseCode = substituteCourseCode;
     }
-    else
-      return output;
-  }
-  
-   public static void main(String[] args)
-   {
-    highPriorityCourse test1 = new highPriorityCourse(23, "EECS393", "Software Engineering", "MWF11:40-12:30", 
-                                                     "Instructor:Andy Podgurski", 5, 4, -1);
-    highPriorityCourse test2 = new highPriorityCourse(24, "EECS391", "Artificial Intelligence", "MWF13:30-14:45", 
-                                                     "Instructor:Michael Lewcki", 5, 4, -1);
-    System.out.println(test1);
-    System.out.println(test2);
-    
-    ArrayList<Integer> coursesTaken = new ArrayList<Integer>();
-    coursesTaken.add(5);
-    coursesTaken.add(7);
-    coursesTaken.add(11);
-    coursesTaken.add(19);
-    coursesTaken.add(23);
-    userInfo xx = new userInfo("Jerry", "AI", coursesTaken);
-    System.out.println(test1.getUserInfo(xx));
-    System.out.println(test1.getEGERoptions(coursesTaken));
-    
-   }
-  
+
+    public String toString()
+    {
+        return super.toString();
+    }
+
+    public static ArrayList<Integer> getHpCourses() // should return a list of all high priority courses
+    {
+        ArrayList<Integer> output = new ArrayList<Integer>();
+        output.addAll(EGERCourses);
+        output.addAll(CSCRCourses);
+        output.addAll(CSDRCourses);
+        output.addAll(SRCourses);
+        return output;
+    }
+
+    public static ArrayList<Integer> getEGERoptions(ArrayList<Integer> coursesTaken) // should return a list of EGER courses
+    // still need to take
+    {
+        HighPriorityCourse.setEGERCourses(EGERCourses);
+        ArrayList<Integer> output = new ArrayList<Integer>();
+        output.addAll(EGERCourses);
+        output.removeAll(coursesTaken);
+        return output;
+    }
+
+    public static ArrayList<Integer> getCSCRoptions(ArrayList<Integer> coursesTaken) // should return a list of CSCR courses
+    // still need to take
+    {
+        HighPriorityCourse.setCSCRCourses(CSCRCourses);
+        ArrayList<Integer> output = new ArrayList<>(CSCRCourses);
+        output.removeAll(coursesTaken);
+        return output;
+    }
+
+    public static ArrayList<Integer> getCSDRoptions(ArrayList<Integer> coursesTaken) // should return a list of CSDR courses
+    // still need to take
+    {
+        HighPriorityCourse.setCSDRCourses(CSDRCourses);
+        ArrayList<Integer> output = new ArrayList<>(CSDRCourses);
+        output.removeAll(coursesTaken);
+        return output;
+    }
+
+    public static ArrayList<Integer> getCSBRoptions(ArrayList<Integer> coursesTaken) // should return a list of CSBR courses
+    // still need to take
+    {
+        HighPriorityCourse.setCSBRCourses(CSBRCourses);
+        ArrayList<Integer> output = new ArrayList<>(CSBRCourses);
+        output.removeAll(coursesTaken);
+        return output;
+    }
+
+    public static ArrayList<Integer> getSRoptions(ArrayList<Integer> coursesTaken) // should return a list of SR courses
+    // still need to take
+    {
+        HighPriorityCourse.setSRCourses(SRCourses);
+        ArrayList<Integer> output = new ArrayList<>(SRCourses);
+        output.removeAll(coursesTaken);
+        return output;
+    }
+
+
+
 }
