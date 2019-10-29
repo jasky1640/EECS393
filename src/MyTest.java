@@ -200,7 +200,7 @@ public class MyTest {
     public void getEGERoptionsTest()
     {
         HighPriorityCourse test1 = new HighPriorityCourse(23,3, "EECS393", "Software Engineering", "13511401230",
-                "Instructor:Andy Podgurski", "EECS233", "001001", HighPriorityCourse.NO_SUBSTITUTES);
+                 "EECS233", "001001", HighPriorityCourse.NO_SUBSTITUTES);
         ArrayList<Integer> coursesTaken = new ArrayList<Integer>();
         coursesTaken.add(1);
         coursesTaken.add(3);
@@ -214,7 +214,7 @@ public class MyTest {
     public void getCSCRoptionsTest()
     {
         HighPriorityCourse test1 = new HighPriorityCourse(23, 3, "EECS393", "Software Engineering", "13511401230",
-                "Instructor:Andy Podgurski", "EECS233", "001001", HighPriorityCourse.NO_SUBSTITUTES);
+                 "EECS233", "001001", HighPriorityCourse.NO_SUBSTITUTES);
         ArrayList<Integer> coursesTaken = new ArrayList<Integer>();
         coursesTaken.add(1);
         coursesTaken.add(3);
@@ -228,7 +228,7 @@ public class MyTest {
     public void getCSDRoptionsTest()
     {
         HighPriorityCourse test1 = new HighPriorityCourse(23, 3, "EECS393", "Software Engineering", "13511401230",
-                "Instructor:Andy Podgurski", "EECS233", "001001", HighPriorityCourse.NO_SUBSTITUTES);
+                 "EECS233", "001001", HighPriorityCourse.NO_SUBSTITUTES);
         ArrayList<Integer> coursesTaken = new ArrayList<Integer>();
         coursesTaken.add(1);
         coursesTaken.add(3);
@@ -242,7 +242,7 @@ public class MyTest {
     public void getCSBRoptionsTest()
     {
         HighPriorityCourse test1 = new HighPriorityCourse(23, 3, "EECS393", "Software Engineering", "13511401230",
-                "Instructor:Andy Podgurski", "EECS233", "001001", HighPriorityCourse.NO_SUBSTITUTES);
+                 "EECS233", "001001", HighPriorityCourse.NO_SUBSTITUTES);
         ArrayList<Integer> coursesTaken = new ArrayList<Integer>();
         coursesTaken.add(1);
         coursesTaken.add(3);
@@ -256,7 +256,7 @@ public class MyTest {
     public void getSRoptionsTest()
     {
         HighPriorityCourse test1 = new HighPriorityCourse(23, 3, "EECS393", "Software Engineering", "13511401230",
-                "Instructor:Andy Podgurski", "EECS233", "001001", HighPriorityCourse.NO_SUBSTITUTES);
+                 "EECS233", "001001", HighPriorityCourse.NO_SUBSTITUTES);
         ArrayList<Integer> coursesTaken = new ArrayList<Integer>();
         coursesTaken.add(1);
         coursesTaken.add(3);
@@ -264,6 +264,21 @@ public class MyTest {
         coursesTaken.add(7);
         coursesTaken.add(9);
         assertEquals(19, test1.getSRoptions(coursesTaken).get(0), "should return courses still need to take");
+    }
+
+    @Test
+    public void getLPoptionsTest()
+    {
+        LowPriorityCourse test1 = new LowPriorityCourse(5, 4, "EECS210",
+                "Circuit Design", "13514151505",
+                "", "000020", HighPriorityCourse.NO_SUBSTITUTES);
+        ArrayList<Integer> coursesTaken = new ArrayList<Integer>();
+        coursesTaken.add(1);
+        coursesTaken.add(3);
+        coursesTaken.add(5);
+        coursesTaken.add(7);
+        coursesTaken.add(9);
+        assertEquals(19, test1.getLPoptions(coursesTaken).get(0), "should return courses still need to take");
     }
 
     @Test
@@ -280,6 +295,31 @@ public class MyTest {
         coursesTaken.add(5);
         User user = new User(15, HighPriorityCourse.AI, coursesTaken);
         assertFalse(user.metPrerequisite(EECS302), "should return false");
+    }
+
+    @Test
+    public void checkGroup2Test()
+    {
+        LowPriorityCourse test1 = new LowPriorityCourse(5, 4, "EECS210",
+                "Circuit Design", "13514151505",
+                "", "000020", HighPriorityCourse.NO_SUBSTITUTES);
+        ArrayList<Integer> coursesTaken1 = new ArrayList<>();
+        coursesTaken1.add(1);
+        coursesTaken1.add(2);
+        coursesTaken1.add(3);
+        coursesTaken1.add(4);
+        coursesTaken1.add(5);
+        coursesTaken1.add(6);
+        User user1 = new User(15, 5, coursesTaken1);
+        assertFalse(test1.checkGroup2(user1), "should return false");
+        ArrayList<Integer> coursesTaken2 = new ArrayList<>();
+        coursesTaken2.add(1);
+        coursesTaken2.add(2);
+        coursesTaken2.add(3);
+        coursesTaken2.add(4);
+        coursesTaken2.add(5);
+        User user2 = new User(16, 5, coursesTaken2);
+        assertTrue(test1.checkGroup2(user2), "should return true");
     }
 
 }

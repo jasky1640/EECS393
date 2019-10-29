@@ -3,16 +3,6 @@ import java.util.*;
 public class HighPriorityCourse extends Course
 {
 
-    private int courseID;
-    private int credit;
-    private String courseCode;
-    private String courseName;
-    private String timeSlot;
-    private String information;
-    private String prerequisite;
-    private String courseType;
-    private String substituteCourseCode;
-
     private static ArrayList<Integer> EGERCourses = new ArrayList<>();
     private static ArrayList<Integer> CSCRCourses = new ArrayList<>();
     private static ArrayList<Integer> CSDRCourses = new ArrayList<>();
@@ -81,17 +71,9 @@ public class HighPriorityCourse extends Course
     }
 
     public HighPriorityCourse(int courseIDs,int credit, String courseCodes, String courseNames, String timeSlots,
-                              String informations, String prerequisites, String courseTypes, String substituteCourseCodes)  // constructor
+                              String prerequisites, String courseTypes, String substituteCourseCodes)  // constructor
     {
         super(courseIDs, credit, courseCodes, courseNames,timeSlots, prerequisites, courseTypes, substituteCourseCodes);
-        courseID = courseIDs;
-        courseCode = courseCodes;
-        courseName = courseNames;
-        timeSlot = timeSlots;
-        information = informations;
-        prerequisite = prerequisites;
-        courseType = courseTypes;
-        substituteCourseCode = substituteCourseCodes;
     }
 
     public String toString()

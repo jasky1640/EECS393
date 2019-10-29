@@ -177,7 +177,7 @@ public class Generator {
         User xx = new User(123,1 , coursesTaken);
 
         HighPriorityCourse test1 = new HighPriorityCourse(23, 3, "EECS393", "Software Engineering", "13511401230",
-                "Instructor:Andy Podgurski", "EECS233", "001001", HighPriorityCourse.NO_SUBSTITUTES);
+                "EECS233", "001001", HighPriorityCourse.NO_SUBSTITUTES);
         Course PHSY201 = new Course(6, 4, "PHSY201",
                 "Introduction to Logic", "24014301545",
                 "", "000020", HighPriorityCourse.NO_SUBSTITUTES);
