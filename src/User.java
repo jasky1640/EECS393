@@ -17,8 +17,11 @@ public class User {
     }
 
     public void setPlans(ArrayList<Plan> newPlans) {
-        this.plans = newPlans;
-        //this.plans.addAll(newPlans);
+        this.plans.addAll(newPlans);
+    }
+
+    public void addPlans(Plan newPlans) {
+        this.plans.add(newPlans);
     }
 
     public int getTrack() {
@@ -83,14 +86,14 @@ public class User {
         coursesTaken.add(5);
 
         User xx = new User(123,1 , coursesTaken);
-        Course EECS132 = new Course(1, 4, "EECS132",
+        Course EECS132 = new Course(1, 4, 4,"EECS132",
                 "Introduction to Programming in Java", "13514151505",
                 "", "010000", HighPriorityCourse.NO_SUBSTITUTES);
-        Course EECS233 = new Course(2, 4, "EECS233",
+        Course EECS233 = new Course(2, 4, 4,"EECS233",
                 "Introduction to Data Structures", "24013001415",
                 "EECS132", "010000", HighPriorityCourse.NO_SUBSTITUTES);
 
-        Course EECS302 = new Course(3, 3, "EECS302",
+        Course EECS302 = new Course(3, 3, 4,"EECS302",
                 "Discrete Mathematics", "13509301020",
                 "MATH122", "010000", HighPriorityCourse.NO_SUBSTITUTES);
 

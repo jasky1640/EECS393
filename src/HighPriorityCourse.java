@@ -70,10 +70,10 @@ public class HighPriorityCourse extends Course
         input.add(6);
     }
 
-    public HighPriorityCourse(int courseIDs,int credit, String courseCodes, String courseNames, String timeSlots,
+    public HighPriorityCourse(int courseIDs,int credit, int priority, String courseCodes, String courseNames, String timeSlots,
                               String prerequisites, String courseTypes, String substituteCourseCodes)  // constructor
     {
-        super(courseIDs, credit, courseCodes, courseNames,timeSlots, prerequisites, courseTypes, substituteCourseCodes);
+        super(courseIDs, credit, priority, courseCodes, courseNames,timeSlots, prerequisites, courseTypes, substituteCourseCodes);
     }
 
     public String toString()

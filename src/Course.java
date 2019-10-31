@@ -6,6 +6,7 @@ public class Course
 
     private int credit;
     private int courseID;
+    private int priority;
     private String courseCode;
     private String courseName;
     private String timeSlot;
@@ -13,10 +14,11 @@ public class Course
     private String courseType;
     private String substituteCourseCode;
 
-    public Course(int courseIDs, int credit, String courseCodes, String courseNames, String timeSlots,
+    public Course(int courseIDs, int credits, int prioritys, String courseCodes, String courseNames, String timeSlots,
                   String prerequisites, String courseTypes,String substituteCourseCodes)
     {
-        this.credit = credit;
+        credit = credits;
+        priority = prioritys;
         courseID = courseIDs;
         courseCode = courseCodes;
         courseName = courseNames;
@@ -34,7 +36,12 @@ public class Course
         System.out.println("Time slot: " + timeSlot);
         System.out.println("Prerequisites: " + prerequisite);
         System.out.println("Type: " + courseType);
-        System.out.println("Substitute Id: "+ substituteCourseCode);
+        System.out.println("Substitute code: "+ substituteCourseCode);
+    }
+
+    public int getPriority()
+    {
+        return priority;
     }
 
     public int getCourseID()
@@ -74,7 +81,7 @@ public class Course
 
     public String toString()
     {
-        return (courseID + "  " + courseCode + "  " + courseName + "  " + timeSlot + "  " +
+        return (credit + "  " + priority + "  " + courseID + "  " + courseCode + "  " + courseName + "  " + timeSlot + "  " +
                 prerequisite + "  " + courseType + "  " + substituteCourseCode);
     }
 }

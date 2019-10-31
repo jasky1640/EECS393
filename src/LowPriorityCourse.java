@@ -7,10 +7,10 @@ public class LowPriorityCourse extends Course
 
     private static ArrayList<Integer> LpCourses = new ArrayList<Integer>();
 
-    public LowPriorityCourse(int courseIDs,int credit, String courseCodes, String courseNames, String timeSlots,
+    public LowPriorityCourse(int courseID,int credit, int priority, String courseCodes, String courseNames, String timeSlots,
                              String prerequisites, String courseTypes, String substituteCourseCodes)  // constructor
     {
-        super(courseIDs, credit, courseCodes, courseNames,timeSlots, prerequisites, courseTypes, substituteCourseCodes);
+        super(courseID, credit, priority, courseCodes, courseNames,timeSlots, prerequisites, courseTypes, substituteCourseCodes);
     }
 
     public static void setLpCourses(ArrayList<Integer> input) // only for testing purpose at this moment,
