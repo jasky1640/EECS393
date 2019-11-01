@@ -1,0 +1,26 @@
+{
+  "name": "eecs393",
+  "version": "1.0.0",
+  "description": "Simple app for testing",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jasky1640/EECS393.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jasky1640/EECS393/issues"
+  },
+  "homepage": "https://github.com/jasky1640/EECS393#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2"
+  }
+}
