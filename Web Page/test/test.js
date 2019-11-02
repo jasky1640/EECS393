@@ -1,8 +1,12 @@
-var assert = require('chai').assert;
-var script = require('../admin/script');
+var expert = require('chai').expect;
+var script = require('../add');
+
 
 describe('First function', function(){
-    it('should use the function resetForm in the end', function(){
-        assert.equal(script(), resetForm());
+    context('with string arguments', function(){
+        it('should return the string array', function(){
+            expect(add("Tom","1230","tom","123")).to.deep.equal("Tom","1230","tom","123");
+        })
     })
+    
 })

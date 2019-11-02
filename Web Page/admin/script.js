@@ -1,6 +1,6 @@
 var selectedRow = null;
 
-module.exports = function onFormSubmit(){
+function onFormSubmit(){
     var formData = readFormData();
     if (selectedRow == null)
         insertNewRecord(formData);
