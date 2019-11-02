@@ -1,33 +1,44 @@
+package generator;
+
 import java.util.ArrayList;
 
 public class Plan {
-
-    private ArrayList<Integer> courseList;
+    private static ArrayList<Course> courseList = new ArrayList<Course>();
     private int numOfCourses;
 
-    public Plan() {
-        this.courseList = new ArrayList<>();
-    }
+    public Plan() {}
 
-    public Plan(ArrayList<Integer> courseList) {
+    public Plan(ArrayList<Course> courseList) {
         this.courseList = courseList;
     }
 
-
-    public ArrayList<Integer> getCourseList() {
+    public static ArrayList<Course> getCourseList() {
         return courseList;
     }
 
-    public void setCourseList(ArrayList<Integer> courseList) {
+    public static void clear()
+    {
+        courseList.clear();
+    }
+
+    public void setCourseList(ArrayList<Course> courseList) {
         this.courseList = courseList;
     }
 
     public boolean isFullPlan() {
-        return this.courseList.size()==Generator.MAX_NUM_COURSES;
+        if (this.courseList.size() >= Generator.MAX_NUM_COURSES)
+            return true;
+        else
+            return false;
     }
 
-    public void addCourse(int courseID) {
-        courseList.add(courseID);
+    public void addCourse(Course course) {
+        courseList.add(course);
+    }
+
+    public void setCourse(int index, Course course)
+    {
+        courseList.set(index, course);
     }
 
     public int getNumOfCourses() {
@@ -38,7 +49,17 @@ public class Plan {
         this.numOfCourses = numOfCourses;
     }
 
-    public int getCourseAt(int index) {
+    public Course getCourseAt(int index) {
         return this.getCourseList().get(index);
     }
+
+    public void printPlan() {
+        ArrayList<String> output = new ArrayList<String>();
+        for (int i = 0; i < courseList.size(); i++)
+            output.add(courseList.get(i).getCourseCode());
+
+        System.out.println(output);
+    }
+
+
 }

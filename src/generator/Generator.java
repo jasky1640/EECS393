@@ -1,3 +1,8 @@
+package generator;
+
+import dbconnect.CourseDBConnect;
+
+import javax.xml.crypto.Data;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,97 +15,85 @@ public class Generator {
     }
 
 
-    public static void generatePlans(User User) throws Exception {
+    public static ArrayList<Plan> generate(ArrayList<Course> courses, User user) throws Exception {
+        // the input courses should be ranked from high to low priority exactly and should not include courses the user has already taken.
+        Plan planA = new Plan();
+        Plan planB = new Plan();
+        Plan planC = new Plan();
 
-        /* step 1: add courses needed to fulfill engineering general education requirements */
-        // get the courses needed to fulfill CS major requirements
-        ArrayList<Integer> EGER_requirements = HighPriorityCourse.getEGERoptions(User.getCourses());
-        fulfillRequirement(EGER_requirements, User);
+        ArrayList<Plan> plans = new ArrayList<Plan>(); // only generate three plans here, could generate more
+        plans.add(planA);
+        plans.add(planB);
+        plans.add(planC);
 
-        /* step 2: add courses needed to fulfill CS major requirement courses */
-        // get the courses needed to fulfill CS major requirements
-        ArrayList<Integer> CSMR_requirements = HighPriorityCourse.getEGERoptions(User.getCourses());
-        fulfillRequirement(CSMR_requirements, User);
+        ArrayList<Course> viableCourses = new ArrayList<Course>();
 
-        /* step 3: add courses needed to fulfill CS core requirement courses */
-        // get the courses needed to fulfill CS major requirements
-        ArrayList<Integer> CSCR_requirements = HighPriorityCourse.getEGERoptions(User.getCourses());
-        fulfillRequirement(CSCR_requirements, User);
-
-        /* step 4: add courses needed to fulfill CS depth requirement courses */
-        // get the courses needed to fulfill CS major requirements
-        ArrayList<Integer> CSDR_requirements = HighPriorityCourse.getEGERoptions(User.getCourses());
-        fulfillRequirement(CSDR_requirements, User);
-
-        /* step 5: add courses needed to fulfill CS breadth requirement courses */
-        // get the courses needed to fulfill CS major requirements
-        ArrayList<Integer> CSBR_requirements = HighPriorityCourse.getEGERoptions(User.getCourses());
-        fulfillRequirement(CSBR_requirements, User);
-
-        /* step 6: add courses needed to fulfill statistics requirement courses */
-        // get the courses needed to fulfill CS major requirements
-        ArrayList<Integer> SR_requirements = HighPriorityCourse.getEGERoptions(User.getCourses());
-        fulfillRequirement(SR_requirements, User);
-
-    }
-
-    public static void fulfillRequirement(ArrayList<Integer> requirements, User user) throws Exception {
-        /* for each course "course_needed" from the requirement list, check:
-        step 1a: if course_needed's prerequisite(s), if any, has been fulfilled
-        step 1b: if course_needed's time slot conflicts with the plan being discussed
-        step 2: if course_needed is already in the current plan list
-         */
-
-
-        ArrayList<Plan> plans = user.getPlans();
-        for (int i = 0; i < requirements.size(); i++) {
-            Course course_needed = Database.getCourse(requirements.get(i)); // course that we want to add to the plan
-            String timeslot1 = course_needed.getTimeSlot(); // the time slot of course_needed
-
-            // step 1a: check if course_needed's prerequisite(s), if any, has been fulfilled
-            if (!user.metPrerequisite(course_needed)) {
-                // do nothing so that we can discuss the next course from "EGER_needed" list
-            } else { // the prerequisite(s) has been fulfilled
-
-                /* if the plans list is empty or if all the plans in the plans list are full,
-                we create a new plan with course_needed being its only element
-                and then add this new plan to the plans list
-                 */
-                if (plans.size() == 0 || numOfFullPlans == plans.size()) {
-                    Plan newPlan = new Plan();
-                    newPlan.addCourse(requirements.get(i));
-                    plans.add(newPlan);
-                } else {
-                    for (int j = 0; j < plans.size(); j++) {
-                        Plan plan = plans.get(j); // the individual plan to which we want to add course_needed
-
-                        if (!plan.isFullPlan()) { // we can add a course to the current plan
-
-                            for (int k = 0; k < plan.getNumOfCourses(); k++) {
-                                Course course_in_plan = Database.getCourse(plan.getCourseAt(k)); // course from the discussed plan
-                                String timeslot2 = course_in_plan.getTimeSlot(); // time slot of course_in_plan
-
-                                // step 1b: check if course_needed's time slot conflicts with the plan being discussed
-                                if (ifOverlap(timeslot1, timeslot2))
-                                    break; // exit the for loop so that we can discuss the next plan
-
-                                else if (course_needed.getCourseCode().equalsIgnoreCase(course_in_plan.getCourseCode()))
-                                    // step 2: if course_needed is already in the current plan list
-                                    break; // exit the for loop so that we can discuss the next plan
-                                else { // no confliction
-                                    if (k == plan.getNumOfCourses() - 1) // we have checked all courses in this plan
-                                        plan.addCourse(requirements.get(i)); // add course_needed to the current plan
-                                }
-
-                            }
-                        } else { // the current plan has been assigned a maximum number of courses
-                            numOfFullPlans++;
-                        }
-                    }
-                }
+        for (int i = 0; i < courses.size(); i++) {
+            if (user.metPrerequisite(courses.get(i)) == true) // first, find all courses that meet prerequisites and save them in
+                // an arraylist called viableCourses
+            {
+                viableCourses.add(courses.get(i));
             }
         }
+
+        plans.get(0).clear();
+        System.out.println("plan1");
+        // plan1
+        plans.get(0).addCourse(viableCourses.get(0)); // add the first course to plan1
+        plans.get(0).printPlan();
+        ArrayList<Course> C1 = viableCourses;
+        for(int j = 0; j < MAX_NUM_COURSES - 1; j++) { // first find every viable course that does not overlap with the
+            // first course in plan1 and save it in array c1, then add the first course in c1 to plan1. Then find every viable
+            // course that does not overlap with the second course in plan1, which is saved in c1 again, add the first course in
+            // c1 to plan1. Repeat until reach the maximum number of courses allowed in one plan.
+            String timeslot1 = plans.get(0).getCourseAt(j).getTimeSlot();
+            C1 = noOverlapCourses(timeslot1, C1);
+            plans.get(0).addCourse(C1.get(0));
+            plans.get(0).printPlan(); // print every step
+        }
+
+        // plan2
+        plans.get(1).clear();
+        System.out.println("plan2");
+        plans.get(1).addCourse(viableCourses.get(0)); // add the first course to plan2
+        plans.get(1).printPlan();
+        ArrayList<Course> C2 = viableCourses;
+        for(int k = 0; k < MAX_NUM_COURSES - 1; k++) { // the only difference is that here it add the second course in c2 to plan2 instead
+            // of adding the first course in c1 to plan1
+            String timeslot1 = plans.get(1).getCourseAt(k).getTimeSlot();
+            C2 = noOverlapCourses(timeslot1, C2);
+            plans.get(1).addCourse(C2.get(1));
+            plans.get(1).printPlan(); // print every step
+        }
+
+        // plan3
+        plans.get(2).clear();
+        System.out.println("plan3");
+        plans.get(2).addCourse(viableCourses.get(0)); // add the first course to plan3
+        plans.get(2).printPlan();
+        ArrayList<Course> C3 = viableCourses;
+        for(int m = 0; m < MAX_NUM_COURSES - 1; m++) { // the only difference is that here it add the third course in c3 to plan3 instead
+            // of adding the first course in c1 to plan1
+            String timeslot1 = plans.get(2).getCourseAt(m).getTimeSlot();
+            C3 = noOverlapCourses(timeslot1, C3);
+            plans.get(2).addCourse(C3.get(2));
+            plans.get(2).printPlan(); // print every step
+        }
         user.setPlans(plans);
+        return plans;
+    }
+
+    public static ArrayList<Course> noOverlapCourses(String timeslot1, ArrayList<Course> courses) throws Exception {
+        ArrayList<Course> output = new ArrayList<Course>();
+        for (int i =0; i < courses.size(); i++)
+        {
+            String timeslot2 = courses.get(i).getTimeSlot();
+            if (Generator.ifOverlap(timeslot1,timeslot2) == false)
+            {
+                output.add(courses.get(i));
+            }
+        }
+        return output;
     }
 
     public static boolean ifOverlap(String timeSlot1, String timeSlot2) throws Exception {
@@ -168,6 +161,16 @@ public class Generator {
             }
         }
         return overlap;
+    }
+
+    public static void main(String[] args) throws Exception {
+        ArrayList<Integer> coursesTaken = new ArrayList<Integer>();
+        coursesTaken.add(1);
+        coursesTaken.add(4);
+
+        User xx = new User(123,1 , coursesTaken);
+
+        Generator.generate(CourseDBConnect.getCourseDBConnectInstance().getAllHighPriorityCoursesByPriority(), xx);
     }
 
 

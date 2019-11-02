@@ -1,3 +1,5 @@
+package generator;
+
 import java.util.*;
 
 public class Course
@@ -6,6 +8,7 @@ public class Course
 
     private int credit;
     private int courseID;
+    private int priority;
     private String courseCode;
     private String courseName;
     private String timeSlot;
@@ -13,17 +16,18 @@ public class Course
     private String courseType;
     private String substituteCourseCode;
 
-    public Course(int courseIDs, int credit, String courseCodes, String courseNames, String timeSlots,
-                  String prerequisites, String courseTypes,String substituteCourseCode)
+    public Course(int courseIDs, int credits, int prioritys, String courseCodes, String courseNames, String timeSlots,
+                  String prerequisites, String courseTypes,String substituteCourseCodes)
     {
-        this.credit = credit;
+        credit = credits;
+        priority = prioritys;
         courseID = courseIDs;
         courseCode = courseCodes;
         courseName = courseNames;
         timeSlot = timeSlots;
         prerequisite = prerequisites;
         courseType = courseTypes;
-        substituteCourseCode = substituteCourseCode;
+        substituteCourseCode = substituteCourseCodes;
     }
 
     public void printCourse()
@@ -34,7 +38,12 @@ public class Course
         System.out.println("Time slot: " + timeSlot);
         System.out.println("Prerequisites: " + prerequisite);
         System.out.println("Type: " + courseType);
-        System.out.println("Substitute Id: "+ substituteCourseCode);
+        System.out.println("Substitute code: "+ substituteCourseCode);
+    }
+
+    public int getPriority()
+    {
+        return priority;
     }
 
     public int getCourseID()
@@ -67,14 +76,14 @@ public class Course
         return courseType;
     }
 
-    public String getSubstituteID()
+    public String getSubstituteCourseCode()
     {
         return substituteCourseCode;
     }
 
     public String toString()
     {
-        return (courseID + "  " + courseCode + "  " + courseName + "  " + timeSlot + "  " +
+        return (credit + "  " + priority + "  " + courseID + "  " + courseCode + "  " + courseName + "  " + timeSlot + "  " +
                 prerequisite + "  " + courseType + "  " + substituteCourseCode);
     }
 }

@@ -1,17 +1,9 @@
+package generator;
+
 import java.util.*;
 
 public class HighPriorityCourse extends Course
 {
-
-    private int courseID;
-    private int credit;
-    private String courseCode;
-    private String courseName;
-    private String timeSlot;
-    private String information;
-    private String prerequisite;
-    private String courseType;
-    private String substituteCourseCode;
 
     private static ArrayList<Integer> EGERCourses = new ArrayList<>();
     private static ArrayList<Integer> CSCRCourses = new ArrayList<>();
@@ -33,59 +25,57 @@ public class HighPriorityCourse extends Course
     // should get data from database in the end.
     {
         input.clear();
+        input.add(1);
+        input.add(2);
+        input.add(3);
+        input.add(4);
         input.add(5);
-        input.add(9);
-        input.add(19);
+        input.add(6);
+        input.add(7);
+        input.add(8);
     }
 
     public static void setCSCRCourses(ArrayList<Integer> input) // only for testing purpose at this moment,
     // should get data from database in the end.
     {
         input.clear();
+        input.add(3);
         input.add(5);
-        input.add(9);
-        input.add(19);
+        input.add(7);
+
     }
 
     public static void setCSDRCourses(ArrayList<Integer> input) // only for testing purpose at this moment,
     // should get data from database in the end.
     {
         input.clear();
-        input.add(5);
-        input.add(9);
-        input.add(19);
+        input.add(1);
+        input.add(4);
+        input.add(6);
     }
 
     public static void setCSBRCourses(ArrayList<Integer> input) // only for testing purpose at this moment,
     // should get data from database in the end.
     {
         input.clear();
-        input.add(5);
-        input.add(9);
-        input.add(19);
+        input.add(1);
+        input.add(4);
+        input.add(6);
     }
 
     public static void setSRCourses(ArrayList<Integer> input) // only for testing purpose at this moment,
     // should get data from database in the end.
     {
         input.clear();
-        input.add(5);
-        input.add(9);
-        input.add(19);
+        input.add(1);
+        input.add(4);
+        input.add(6);
     }
 
-    public HighPriorityCourse(int courseIDs,int credit, String courseCodes, String courseNames, String timeSlots,
-                              String informations, String prerequisites, String courseType, String substituteCourseCode)  // constructor
+    public HighPriorityCourse(int courseIDs,int credit, int priority, String courseCodes, String courseNames, String timeSlots,
+                              String prerequisites, String courseTypes, String substituteCourseCodes)  // constructor
     {
-        super(courseIDs, credit, courseCodes, courseNames,timeSlots, prerequisites, courseType, substituteCourseCode);
-        courseID = courseIDs;
-        courseCode = courseCodes;
-        courseName = courseNames;
-        timeSlot = timeSlots;
-        information = informations;
-        prerequisite = prerequisites;
-        courseType = courseType;
-        substituteCourseCode = substituteCourseCode;
+        super(courseIDs, credit, priority, courseCodes, courseNames,timeSlots, prerequisites, courseTypes, substituteCourseCodes);
     }
 
     public String toString()
