@@ -1,6 +1,6 @@
 var selectedRow = null;
 
-function onFormSubmit(){
+module.exports = function onFormSubmit(){
     var formData = readFormData();
     if (selectedRow == null)
         insertNewRecord(formData);
@@ -9,7 +9,7 @@ function onFormSubmit(){
 
     resetForm()
 }
-module.exports=onFormSubmit;
+
 
 function readFormData(){
     var formData = {};
@@ -19,7 +19,7 @@ function readFormData(){
     formData["information"] = document.getElementById("information").value;
     return formData;
 }
-module.exports=readFormData;
+
 
 function insertNewRecord(data){
     var table = document.getElementById("classList").getElementsByTagName('tbody')[0];
@@ -36,7 +36,6 @@ function insertNewRecord(data){
     cell4.innerHTML = `<a onClick="onEdit(this)">Edit</a>
                        <a onClick="onDelete(this)">Delete</a>`;
 }
-module.exports=insertNewRecord;
 
 function resetForm(){
     document.getElementById("className").value = "";
@@ -45,7 +44,7 @@ function resetForm(){
     document.getElementById("information").value = "";
     selectedRow = null;
 }
-module.exports=resetForm;
+
 
 function onEdit(td){
     selectedRow = td.parentElement.parentElement;
@@ -54,7 +53,7 @@ function onEdit(td){
     document.getElementById("professor").value = selectedRow.cells[2].innerHTML;
     document.getElementById("information").value = selectedRow.cells[3].innerHTML;
 }
-module.exports=onEdit;
+
 
 function updateRecord(formData){
     selectedRow.cells[0].innerHTML = formData.className;
@@ -62,7 +61,7 @@ function updateRecord(formData){
     selectedRow.cells[2].innerHTML = formData.professor;
     selectedRow.cells[3].innerHTML = formData.information;
 }
-module.exports=updateRecord;
+
 
 function onDelete(td){
     if(confirm('Are you sure to delete this class?'))
@@ -70,4 +69,4 @@ function onDelete(td){
         document.getElementById("classList").deleteRow(row.rowIndex);
         resetForm();
 }
-module.exports=onDelete;
+
