@@ -64,9 +64,10 @@ function updateRecord(formData){
 
 
 function onDelete(td){
-    if(confirm('Are you sure to delete this class?'))
+    if(confirm('Are you sure to delete this class?')){
         row = td.parentElement.parentElement;
         document.getElementById("classList").deleteRow(row.rowIndex);
         resetForm();
+    }
 }
 
