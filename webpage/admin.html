@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,9 +9,21 @@
         Admin Page
     </title>
     <link rel="stylesheet" href="admin/style.css">
-
+    <link rel="stylesheet" href="node_modules/mocha/mocha.css">
 </head>
+
 <body>
+    <script src="admin/script.js"></script>
+    <div id="mocha" style = "display:none"></div>
+    <script src="node_modules/chai/chai.js"></script>
+    <script src="node_modules/mocha/mocha.js"></script>
+    <script>
+        mocha.setup('bdd');
+    </script>
+    <script src="test/tests.js"></script>
+    <script>
+        mocha.run();
+    </script>
     <table>
         <tr>
             <td>
@@ -20,19 +33,19 @@
                         <input type="text" name="className" id="className">
                     </div>
                     <div>
-                            <label>Class Time</label>
-                            <input type="text" name="classTime" id="classTime">
+                        <label>Class Time</label>
+                        <input type="text" name="classTime" id="classTime">
                     </div>
                     <div>
-                            <label>Professor</label>
-                            <input type="text" name="professor" id="professor">
+                        <label>Professor</label>
+                        <input type="text" name="professor" id="professor">
                     </div>
                     <div>
-                            <label>Information</label>
-                            <input type="text" name="information" id="information">
+                        <label>Information</label>
+                        <input type="text" name="information" id="information">
                     </div>
                     <div>
-                            <input type="submit" name="Submit">
+                        <input type="submit" name="Submit">
                     </div>
                 </form>
             </td>
@@ -49,14 +62,14 @@
                         </tr>
                     </thead>
 
-                    <tbody>
+                    <tbody id="tableBody">
 
                     </tbody>
                 </table>
             </td>
         </tr>
     </table>
-    <script src ="admin/script.js"></script>
 
 </body>
+
 </html>

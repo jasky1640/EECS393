@@ -10,6 +10,7 @@ function onFormSubmit(){
     resetForm()
 }
 
+
 function readFormData(){
     var formData = {};
     formData["className"] = document.getElementById("className").value;
@@ -18,6 +19,7 @@ function readFormData(){
     formData["information"] = document.getElementById("information").value;
     return formData;
 }
+
 
 function insertNewRecord(data){
     var table = document.getElementById("classList").getElementsByTagName('tbody')[0];
@@ -43,6 +45,7 @@ function resetForm(){
     selectedRow = null;
 }
 
+
 function onEdit(td){
     selectedRow = td.parentElement.parentElement;
     document.getElementById("className").value = selectedRow.cells[0].innerHTML;
@@ -51,6 +54,7 @@ function onEdit(td){
     document.getElementById("information").value = selectedRow.cells[3].innerHTML;
 }
 
+
 function updateRecord(formData){
     selectedRow.cells[0].innerHTML = formData.className;
     selectedRow.cells[1].innerHTML = formData.classTime;
@@ -58,9 +62,12 @@ function updateRecord(formData){
     selectedRow.cells[3].innerHTML = formData.information;
 }
 
+
 function onDelete(td){
-    if(confirm('Are you sure to delete this class?'))
+    if(confirm('Are you sure to delete this class?')){
         row = td.parentElement.parentElement;
         document.getElementById("classList").deleteRow(row.rowIndex);
         resetForm();
+    }
 }
+
