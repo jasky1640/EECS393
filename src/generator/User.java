@@ -68,14 +68,14 @@ public class User {
     public boolean metPrerequisite(Course course) // return true if the input course has no prerequisite or the user has already taken the prerequisite,
     // return false otherwise.
     {
-        Database sample = new Database();
         boolean output = false;
-        if (course.getPrerequisite() == "")
+        if (course.getPrerequisite().equals(""))
             output = true;
         else if (User.getCourseCode().contains(course.getPrerequisite()) == true)
             output = true;
         return output;
     }
+
 
     public static void main(String[] args) throws Exception {
 

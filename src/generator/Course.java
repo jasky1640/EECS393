@@ -83,7 +83,7 @@ public class Course
 
     public String toString()
     {
-        return (credit + "  " + priority + "  " + courseID + "  " + courseCode + "  " + courseName + "  " + timeSlot + "  " +
-                prerequisite + "  " + courseType + "  " + substituteCourseCode);
+        return ("credit: " + credit + "  "  + "courseID: " + courseID + "  " + "courseCode: " + courseCode + "  " + "courseName: " + courseName + "  " + "timeSlot: " + timeSlot + "  " +
+                "prerequisite: " + prerequisite + "  " + "courseType: " + courseType + "  " + "substituteCourseCode: " + substituteCourseCode);
     }
 }

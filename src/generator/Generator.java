@@ -20,11 +20,15 @@ public class Generator {
         Plan planA = new Plan();
         Plan planB = new Plan();
         Plan planC = new Plan();
+        Plan planD = new Plan();
+        Plan planE = new Plan();
 
         ArrayList<Plan> plans = new ArrayList<Plan>(); // only generate three plans here, could generate more
         plans.add(planA);
         plans.add(planB);
         plans.add(planC);
+        plans.add(planD);
+        plans.add(planE);
 
         ArrayList<Course> viableCourses = new ArrayList<Course>();
 
@@ -40,47 +44,110 @@ public class Generator {
         System.out.println("plan1");
         // plan1
         plans.get(0).addCourse(viableCourses.get(0)); // add the first course to plan1
-        plans.get(0).printPlan();
         ArrayList<Course> C1 = viableCourses;
         for(int j = 0; j < MAX_NUM_COURSES - 1; j++) { // first find every viable course that does not overlap with the
             // first course in plan1 and save it in array c1, then add the first course in c1 to plan1. Then find every viable
             // course that does not overlap with the second course in plan1, which is saved in c1 again, add the first course in
             // c1 to plan1. Repeat until reach the maximum number of courses allowed in one plan.
+
             String timeslot1 = plans.get(0).getCourseAt(j).getTimeSlot();
             C1 = noOverlapCourses(timeslot1, C1);
-            plans.get(0).addCourse(C1.get(0));
-            plans.get(0).printPlan(); // print every step
+            if (isInPlan(C1.get(0), plans.get(0)) == false)
+                plans.get(0).addCourse(C1.get(0));
+        }
+
+        for (int i = 0; i < plans.get(0).getCourseList().size(); i++)
+        {
+            System.out.println(plans.get(0).getCourseList().get(i));
         }
 
         // plan2
         plans.get(1).clear();
         System.out.println("plan2");
         plans.get(1).addCourse(viableCourses.get(0)); // add the first course to plan2
-        plans.get(1).printPlan();
         ArrayList<Course> C2 = viableCourses;
         for(int k = 0; k < MAX_NUM_COURSES - 1; k++) { // the only difference is that here it add the second course in c2 to plan2 instead
             // of adding the first course in c1 to plan1
+
             String timeslot1 = plans.get(1).getCourseAt(k).getTimeSlot();
             C2 = noOverlapCourses(timeslot1, C2);
-            plans.get(1).addCourse(C2.get(1));
-            plans.get(1).printPlan(); // print every step
+            if (isInPlan(C2.get(1), plans.get(1)) == false)
+                plans.get(1).addCourse(C2.get(1));
+        }
+
+        for (int i = 0; i < plans.get(1).getCourseList().size(); i++)
+        {
+            System.out.println(plans.get(1).getCourseList().get(i));
         }
 
         // plan3
         plans.get(2).clear();
         System.out.println("plan3");
         plans.get(2).addCourse(viableCourses.get(0)); // add the first course to plan3
-        plans.get(2).printPlan();
         ArrayList<Course> C3 = viableCourses;
         for(int m = 0; m < MAX_NUM_COURSES - 1; m++) { // the only difference is that here it add the third course in c3 to plan3 instead
             // of adding the first course in c1 to plan1
             String timeslot1 = plans.get(2).getCourseAt(m).getTimeSlot();
             C3 = noOverlapCourses(timeslot1, C3);
-            plans.get(2).addCourse(C3.get(2));
-            plans.get(2).printPlan(); // print every step
+            if (isInPlan(C3.get(2), plans.get(2)) == false)
+                plans.get(2).addCourse(C3.get(2));
         }
+
+        for (int i = 0; i < plans.get(2).getCourseList().size(); i++)
+        {
+            System.out.println(plans.get(2).getCourseList().get(i));
+        }
+
+        // plan4
+        plans.get(3).clear();
+        System.out.println("plan4");
+        plans.get(3).addCourse(viableCourses.get(0)); // add the first course to plan4
+        ArrayList<Course> C4 = viableCourses;
+        for(int n = 0; n < MAX_NUM_COURSES - 1; n++) { // the only difference is that here it add the third course in c4 to plan4 instead
+            // of adding the first course in c1 to plan1
+            String timeslot1 = plans.get(3).getCourseAt(n).getTimeSlot();
+            C4 = noOverlapCourses(timeslot1, C4);
+            if (isInPlan(C4.get(3), plans.get(3)) == false)
+                plans.get(3).addCourse(C4.get(3));
+        }
+
+        for (int i = 0; i < plans.get(3).getCourseList().size(); i++)
+        {
+            System.out.println(plans.get(3).getCourseList().get(i));
+        }
+
+        // plan5
+        plans.get(4).clear();
+        System.out.println("plan5");
+        plans.get(4).addCourse(viableCourses.get(0)); // add the first course to plan5
+        ArrayList<Course> C5 = viableCourses;
+        for(int g = 0; g < MAX_NUM_COURSES - 1; g++) { // the only difference is that here it add the third course in c4 to plan4 instead
+            // of adding the first course in c1 to plan1
+            String timeslot1 = plans.get(4).getCourseAt(g).getTimeSlot();
+            C5 = noOverlapCourses(timeslot1, C5);
+            if (isInPlan(C5.get(4), plans.get(4)) == false)
+                plans.get(4).addCourse(C5.get(4));
+        }
+
+        for (int i = 0; i < plans.get(4).getCourseList().size(); i++)
+        {
+            System.out.println(plans.get(4).getCourseList().get(i));
+        }
+
+
         user.setPlans(plans);
         return plans;
+    }
+
+    public static boolean isInPlan(Course course, Plan plan)
+    {
+        boolean output = false;
+        for (int i = 0; i < plan.getCourseList().size(); i++)
+        {
+            if (plan.getCourseList().get(i).getCourseCode().equals(course.getCourseCode()))
+                output = true;
+        }
+        return output;
     }
 
     public static ArrayList<Course> noOverlapCourses(String timeslot1, ArrayList<Course> courses) throws Exception {
