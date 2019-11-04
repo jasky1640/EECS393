@@ -1,6 +1,8 @@
 package dbconnect;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class UserInfoDBConnect {
     private static UserInfoDBConnect UserInfoDBConnectSingleton = new UserInfoDBConnect();
@@ -144,6 +146,102 @@ public class UserInfoDBConnect {
         return false;
     }
 
+    public static ArrayList<String> getCourseCodeTaken(String username){
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        try{
+            String coreTaken = null;
+            String breadthTaken = null;
+            String depthTaken = null;
+            String generalTaken = null;
+            String technicalElectiveTaken = null;
+
+            //Register JDBC driver
+            Class.forName(JDBC_DRIVER);
+
+            //Open a connection
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+            //Execute a query
+            stmt = conn.createStatement();
+            String sql = "SELECT * FROM user_information.user_information Where user_name = '" + username + "'";
+            rs = stmt.executeQuery(sql);
+
+            //Extract data from result set
+            //Retrieve by column name
+            if (rs.next()){
+                coreTaken = rs.getString("core");
+                breadthTaken = rs.getString("breadth");
+                depthTaken = rs.getString("depth");
+                generalTaken = rs.getString("general");
+                technicalElectiveTaken = rs.getString("technical_elective");
+            }
+            //Clean-up environment
+            rs.close();
+            stmt.close();
+            conn.close();
+
+            String[] coreTakenList = null;
+            if(coreTaken != null)
+                coreTakenList = coreTaken.split("-");
+
+            String[] breadthTakenList = null;
+            if(breadthTaken != null)
+                breadthTakenList = breadthTaken.split("-");
+
+            String[] depthTakenList = null;
+            if(depthTaken != null)
+                depthTakenList = depthTaken.split("-");
+
+            String[] generalTakenList = null;
+            if(generalTaken != null)
+                generalTakenList = generalTaken.split("-");
+
+            String[] electiveTakenList = null;
+            if(technicalElectiveTaken != null)
+                electiveTakenList = technicalElectiveTaken.split("-");
+
+            ArrayList<String> output = new ArrayList<>();
+            if(coreTakenList != null)
+                output.addAll(Arrays.asList(coreTakenList));
+            if(breadthTakenList != null)
+                output.addAll(Arrays.asList(breadthTakenList));
+            if(depthTakenList != null)
+                output.addAll(Arrays.asList(depthTakenList));
+            if(generalTakenList != null)
+                output.addAll(Arrays.asList(generalTakenList));
+            if(electiveTakenList != null)
+                output.addAll(Arrays.asList(electiveTakenList));
+            return output;
+        }
+        catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }
+        catch(Exception e){
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        }
+        finally{
+            //finally block used to close resources
+            try{
+                if(stmt!=null)
+                    stmt.close();
+            }
+            catch(SQLException se2){
+            }// nothing we can do
+            try{
+                if(conn!=null)
+                    conn.close();
+            }
+            catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+        return null;
+    }
+
     //Check if an username is used already
     public static boolean IsUserNameUsed(String username){
         Connection conn = null;
@@ -200,9 +298,11 @@ public class UserInfoDBConnect {
     }
 
     public static void main(String[] args) {
-        System.out.println(IsCorrectAdminUserPasswordPair("haha","1234567"));
-        System.out.println(IsCorrectAdminUserPasswordPair("zhizhi","123456"));
-        System.out.println(IsUserNameUsed("zhizhi"));
-        System.out.println(IsUserNameUsed("hanhan"));
+        for(String s: getCourseCodeTaken("zhizhi"))
+            System.out.println(s);
+
+        System.out.println("Jieyu:");
+        for(String s: getCourseCodeTaken("jieyu"))
+            System.out.println(s);
     }
 }

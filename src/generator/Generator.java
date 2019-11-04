@@ -1,6 +1,7 @@
 package generator;
 
 import dbconnect.CourseDBConnect;
+import dbconnect.UserInfoDBConnect;
 
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -31,15 +32,27 @@ public class Generator {
         plans.add(planD);
         plans.add(planE);
 
+        //Delete all taken course
+        ArrayList<Course> qualifiedCourses = new ArrayList<>();
+        ArrayList<String> courseTaken = UserInfoDBConnect.getCourseCodeTaken(user.getUserName());
+        for(Course course: courses)
+            if(!courseTaken.contains(course.getCourseCode()))
+                qualifiedCourses.add(course);
+
         ArrayList<Course> viableCourses = new ArrayList<Course>();
 
-        for (int i = 0; i < courses.size(); i++) {
-            if (user.metPrerequisite(courses.get(i)) == true) // first, find all courses that meet prerequisites and save them in
+        for (int i = 0; i < qualifiedCourses.size(); i++) {
+            if (user.metPrerequisite(qualifiedCourses.get(i)) == true) // first, find all courses that meet prerequisites and save them in
                 // an arraylist called viableCourses
             {
-                viableCourses.add(courses.get(i));
+                viableCourses.add(qualifiedCourses.get(i));
             }
         }
+
+        System.out.println("-----");
+        for(Course c: viableCourses)
+            System.out.println(c.toString());
+        System.out.println("-----");
 
         plans.get(0).clear();
         System.out.println("plan1");
@@ -67,13 +80,15 @@ public class Generator {
         System.out.println("plan2");
         plans.get(1).addCourse(viableCourses.get(0)); // add the first course to plan2
         ArrayList<Course> C2 = viableCourses;
+
         for(int k = 0; k < MAX_NUM_COURSES - 1; k++) { // the only difference is that here it add the second course in c2 to plan2 instead
             // of adding the first course in c1 to plan1
-
+            if (C2.size() > 2) {
             String timeslot1 = plans.get(1).getCourseAt(k).getTimeSlot();
             C2 = noOverlapCourses(timeslot1, C2);
             if (isInPlan(C2.get(1), plans.get(1)) == false)
                 plans.get(1).addCourse(C2.get(1));
+            }
         }
 
         for (int i = 0; i < plans.get(1).getCourseList().size(); i++)
@@ -88,10 +103,14 @@ public class Generator {
         ArrayList<Course> C3 = viableCourses;
         for(int m = 0; m < MAX_NUM_COURSES - 1; m++) { // the only difference is that here it add the third course in c3 to plan3 instead
             // of adding the first course in c1 to plan1
+            if (C3.size() > 2){
             String timeslot1 = plans.get(2).getCourseAt(m).getTimeSlot();
             C3 = noOverlapCourses(timeslot1, C3);
-            if (isInPlan(C3.get(2), plans.get(2)) == false)
-                plans.get(2).addCourse(C3.get(2));
+            if (C3.size() > 2) {
+                if (isInPlan(C3.get(2), plans.get(2)) == false)
+                    plans.get(2).addCourse(C3.get(2));
+            }
+            }
         }
 
         for (int i = 0; i < plans.get(2).getCourseList().size(); i++)
@@ -124,10 +143,15 @@ public class Generator {
         ArrayList<Course> C5 = viableCourses;
         for(int g = 0; g < MAX_NUM_COURSES - 1; g++) { // the only difference is that here it add the third course in c4 to plan4 instead
             // of adding the first course in c1 to plan1
+            if (C5.size() > 1) {
             String timeslot1 = plans.get(4).getCourseAt(g).getTimeSlot();
             C5 = noOverlapCourses(timeslot1, C5);
+            if(C5.size() > 1)
+                {
             if (isInPlan(C5.get(1), plans.get(4)) == false)
                 plans.get(4).addCourse(C5.get(1));
+                }
+            }
         }
 
         for (int i = 0; i < plans.get(4).getCourseList().size(); i++)
@@ -156,7 +180,7 @@ public class Generator {
         for (int i =0; i < courses.size(); i++)
         {
             String timeslot2 = courses.get(i).getTimeSlot();
-            if (Generator.ifOverlap(timeslot1,timeslot2) == false)
+            if (Generator.isSplit(timeslot1,timeslot2) == false)
             {
                 output.add(courses.get(i));
             }
@@ -268,8 +292,7 @@ public class Generator {
     }
 
     public static void main(String[] args) throws Exception {
-        ArrayList<Integer> coursesTaken = new ArrayList<Integer>();
-        User xx = new User(123,1 , coursesTaken);
+        User xx = new User("jieyu",1);
 
         Instant start = Instant.now();
         Generator.generate(CourseDBConnect.getCourseDBConnectInstance().getAllHighPriorityCoursesByPriority(), xx);

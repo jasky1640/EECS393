@@ -34,6 +34,7 @@ public class LowPriorityCourse extends Course
         return output;
     }
 
+    /*
     public boolean checkGroup2(User user)
     {
 
@@ -52,6 +53,7 @@ public class LowPriorityCourse extends Course
 
         return output;
     }
+    */
 
     public ArrayList<Integer> getLpCourses() // should return a list of all low priority courses
     {

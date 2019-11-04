@@ -81,9 +81,72 @@ public class Course
         return substituteCourseCode;
     }
 
+    public static String convertTimeSlotReadable(String timeSlot){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Regular Section: ");
+        for(int i = 0; i < 3; i++){
+            if(timeSlot.charAt(i) == '0')
+                break;
+            if(timeSlot.charAt(i) == '1')
+                sb.append("Monday ");
+            if(timeSlot.charAt(i) == '2')
+                sb.append("Tuesday ");
+            if(timeSlot.charAt(i) == '3')
+                sb.append("Wednesday ");
+            if(timeSlot.charAt(i) == '4')
+                sb.append("Thursday ");
+            if(timeSlot.charAt(i) == '5')
+                sb.append("Friday ");
+        }
+        sb.append(timeSlot, 3, 5);
+        sb.append(":");
+        sb.append(timeSlot, 5, 7);
+        sb.append(" - ");
+        sb.append(timeSlot, 7, 9);
+        sb.append(":");
+        sb.append(timeSlot, 9, 11);
+
+        if(timeSlot.length() > 11){
+            sb.append(", Lab/Recitation Section: ");
+            for(int i = 11; i < 14; i++){
+                if(timeSlot.charAt(i) == '0')
+                    break;
+                if(timeSlot.charAt(i) == '1')
+                    sb.append("Monday ");
+                if(timeSlot.charAt(i) == '2')
+                    sb.append("Tuesday ");
+                if(timeSlot.charAt(i) == '3')
+                    sb.append("Wednesday ");
+                if(timeSlot.charAt(i) == '4')
+                    sb.append("Thursday ");
+                if(timeSlot.charAt(i) == '5')
+                    sb.append("Friday ");
+            }
+            sb.append(timeSlot, 14, 16);
+            sb.append(":");
+            sb.append(timeSlot, 16, 18);
+            sb.append(" - ");
+            sb.append(timeSlot, 18, 20);
+            sb.append(":");
+            sb.append(timeSlot, 20, 22);
+        }
+        return sb.toString();
+    }
+
+    public static String convertBlankToNone(String blank){
+       if(blank.equals(""))
+           return "None";
+       return blank;
+    }
+
     public String toString()
     {
-        return ("credit: " + credit + "  "  + "courseID: " + courseID + "  " + "courseCode: " + courseCode + "  " + "courseName: " + courseName + "  " + "timeSlot: " + timeSlot + "  " +
-                "prerequisite: " + prerequisite + "  " + "courseType: " + courseType + "  " + "substituteCourseCode: " + substituteCourseCode);
+        return ("credit: " + credit + "  "  + "courseID: " + courseID + "  " + "courseCode: " + courseCode + "  " + "courseName: " + courseName + "  " + "timeSlot: " + convertTimeSlotReadable(timeSlot) + "  " +
+                "prerequisite: " + convertBlankToNone(prerequisite) + "  " + "courseType: " + courseType + "  " + "substituteCourseCode: " + convertBlankToNone(substituteCourseCode));
+    }
+
+    public static void main(String[] args) {
+        System.out.println(convertTimeSlotReadable("24010001115"));
+        System.out.println(convertTimeSlotReadable("2401000111530013001500"));
     }
 }
