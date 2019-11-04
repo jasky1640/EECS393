@@ -2,8 +2,9 @@ package generator;
 
 import dbconnect.CourseDBConnect;
 
-import javax.xml.crypto.Data;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -237,8 +238,10 @@ public class Generator {
 
         User xx = new User(123,1 , coursesTaken);
 
+        Instant start = Instant.now();
         Generator.generate(CourseDBConnect.getCourseDBConnectInstance().getAllHighPriorityCoursesByPriority(), xx);
+        Instant finish = Instant.now();
+        long timeElapsed = Duration.between(start, finish).toMillis();  //in millis
+        System.out.println("The execution time is " + timeElapsed / 1000 + " seconds."); //print in seconds
     }
-
-
 }

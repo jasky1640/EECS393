@@ -1260,41 +1260,100 @@ public class CourseDBConnect {
 
      public Course getCourse(int id){
         CourseDBConnect courseDBConnect = CourseDBConnect.getCourseDBConnectInstance();
-        int credit = courseDBConnect.getCourseCreditHour(id);
-        String courseCode = courseDBConnect.getCourseCode(id);
-        String courseName = courseDBConnect.getCourseName(id);
-        String timeSlot = courseDBConnect.getCourseTimeSlots(id);
-        String prerequisite = courseDBConnect.getPrerequisiteCourses(id);
-        String courseType = courseDBConnect.getCourseType(id);
-        String substituteCourseCode = Course.NO_SUBSTITUTES;
-        if(courseCode.equals("MATH380")){
-            substituteCourseCode = "STAT312";
-        }
-        if(courseCode.equals("STAT312")){
-            substituteCourseCode = "MATH380";
-        }
-        if(courseCode.equals("MATH201")){
-            substituteCourseCode = "MATH307";
-        }
-        if(courseCode.equals("MATH307")){
-            substituteCourseCode = "MATH201";
-        }
-        if(CourseDBConnect.statisticsCourseCodeList.contains(courseCode) || CourseDBConnect.generalCourseCodeList.contains(courseCode)){
-            return new Course(id, credit, 5, courseCode, courseName, timeSlot, prerequisite, courseType, substituteCourseCode);
-        }
-        if(CourseDBConnect.coreCourseCodeList.contains(courseCode)){
-            return new Course(id, credit, 4, courseCode, courseName, timeSlot, prerequisite, courseType, substituteCourseCode);
-        }
-        if(CourseDBConnect.breadthCourseCodeList.contains(courseCode)){
-            return new Course(id, credit, 3, courseCode, courseName, timeSlot, prerequisite, courseType, substituteCourseCode);
-        }
-        if(CourseDBConnect.depthCourseCodeList.contains(courseCode)) {
-            return new Course(id, credit, 2, courseCode, courseName, timeSlot, prerequisite, courseType, substituteCourseCode);
-        }
-        if(CourseDBConnect.elective1CourseCodeList.contains(courseCode) || CourseDBConnect.elective2CourseCodeList.contains(courseCode)){
-            return new Course(id, credit, 1, courseCode, courseName, timeSlot, prerequisite, courseType, substituteCourseCode);
-        }
-        return new Course(id, credit, -1, courseCode, courseName, timeSlot, prerequisite, courseType, substituteCourseCode);
+         Connection conn = null;
+         Statement stmt = null;
+         ResultSet rs = null;
+         try{
+             int credit = -1;
+             String courseCode = "";
+             String courseName = "";
+             String timeSlot = "";
+             String prerequisite = "";
+             String courseType = "";
+             //Register JDBC driver
+             Class.forName(JDBC_DRIVER);
+
+             //Open a connection
+             conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+             //Execute a query
+             stmt = conn.createStatement();
+             String sql = "SELECT * FROM courses.course Where course_id = " + id;
+             rs = stmt.executeQuery(sql);
+
+             //Extract data from result set
+             //Retrieve by column name
+             if (rs.next()){
+                 credit = rs.getInt("credit_hour");
+                 courseCode = rs.getString("course_code");
+                 courseName = rs.getString("name");
+                 timeSlot = rs.getString("time_slots");
+                 prerequisite = rs.getString("prerequisite_courses");
+                 courseType = rs.getString("type");
+             }
+             //Clean-up environment
+             rs.close();
+             stmt.close();
+             conn.close();
+
+             if(prerequisite == null)
+                 prerequisite = "";
+
+             String substituteCourseCode = Course.NO_SUBSTITUTES;
+             if(courseCode.equals("MATH380")){
+                 substituteCourseCode = "STAT312";
+             }
+             if(courseCode.equals("STAT312")){
+                 substituteCourseCode = "MATH380";
+             }
+             if(courseCode.equals("MATH201")){
+                 substituteCourseCode = "MATH307";
+             }
+             if(courseCode.equals("MATH307")){
+                 substituteCourseCode = "MATH201";
+             }
+             if(CourseDBConnect.statisticsCourseCodeList.contains(courseCode) || CourseDBConnect.generalCourseCodeList.contains(courseCode)){
+                 return new Course(id, credit, 5, courseCode, courseName, timeSlot, prerequisite, courseType, substituteCourseCode);
+             }
+             if(CourseDBConnect.coreCourseCodeList.contains(courseCode)){
+                 return new Course(id, credit, 4, courseCode, courseName, timeSlot, prerequisite, courseType, substituteCourseCode);
+             }
+             if(CourseDBConnect.breadthCourseCodeList.contains(courseCode)){
+                 return new Course(id, credit, 3, courseCode, courseName, timeSlot, prerequisite, courseType, substituteCourseCode);
+             }
+             if(CourseDBConnect.depthCourseCodeList.contains(courseCode)) {
+                 return new Course(id, credit, 2, courseCode, courseName, timeSlot, prerequisite, courseType, substituteCourseCode);
+             }
+             if(CourseDBConnect.elective1CourseCodeList.contains(courseCode) || CourseDBConnect.elective2CourseCodeList.contains(courseCode)){
+                 return new Course(id, credit, 1, courseCode, courseName, timeSlot, prerequisite, courseType, substituteCourseCode);
+             }
+             return new Course(id, credit, -1, courseCode, courseName, timeSlot, prerequisite, courseType, substituteCourseCode);
+         }
+         catch(SQLException se){
+             //Handle errors for JDBC
+             se.printStackTrace();
+         }
+         catch(Exception e){
+             //Handle errors for Class.forName
+             e.printStackTrace();
+         }
+         finally{
+             //finally block used to close resources
+             try{
+                 if(stmt!=null)
+                     stmt.close();
+             }
+             catch(SQLException se2){
+             }// nothing we can do
+             try{
+                 if(conn!=null)
+                     conn.close();
+             }
+             catch(SQLException se){
+                 se.printStackTrace();
+             }
+         }
+         return null;
      }
 
      public ArrayList<Course> getAllHighPriorityCoursesByPriority(){
@@ -1319,39 +1378,6 @@ public class CourseDBConnect {
 
     public static void main(String[] args) {
         CourseDBConnect db = CourseDBConnect.getCourseDBConnectInstance();
-        //System.out.println(db.getCourseName(56));
-        //System.out.println(db.getCourseCode(56));
-        //System.out.println(db.getCourseTimeSlots(57));
-        //System.out.println(db.getCourseType(57));
-        System.out.println(db.getPrerequisiteCourses(11));
-        //System.out.println(db.getCourseCreditHour(56));
-        //System.out.println(db.getCourseDepth(56));
-        //System.out.println(db.getCourseType(39));
-        //System.out.println("General ID");
-        for(String i: db.getGeneralCourseCodeList())
-            System.out.println(i);
-        System.out.println("Core ID");
-        for(String i: db.getCoreCourseCodeList())
-            System.out.println(i);
-        System.out.println("Breadth ID");
-        for(String i: db.getBreadthCourseCodeList())
-            System.out.println(i);
-        System.out.println("Depth ID");
-        for(String i: db.getDepthCourseCodeList())
-            System.out.println(i);
-        System.out.println("Elective Group 1 ID");
-        for(String i: db.getElectiveGroup1CourseCodeList())
-            System.out.println(i);
-        System.out.println("Elective Group 2 ID");
-        for(String i: db.getElectiveGroup2CourseCodeList())
-            System.out.println(i);
-        System.out.println("Statistics ID");
-        for(String i: db.getStatisticsCourseCodeList())
-            System.out.println(i);
-        //db.getCourse(56).printCourse();
-        System.out.println(db.getPrerequisiteCode("MATH121"));
-        System.out.println("MATH223 IDs");
-        for(Integer i: db.getIDsFromCourseCode("MATH223"))
-            System.out.println(i);
+        db.getCourse(1).printCourse();
     }
 }
