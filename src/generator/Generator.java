@@ -24,7 +24,7 @@ public class Generator {
         Plan planD = new Plan();
         Plan planE = new Plan();
 
-        ArrayList<Plan> plans = new ArrayList<Plan>(); // only generate three plans here, could generate more
+        ArrayList<Plan> plans = new ArrayList<Plan>(); // only generate five plans here, could generate more
         plans.add(planA);
         plans.add(planB);
         plans.add(planC);
@@ -102,14 +102,14 @@ public class Generator {
         // plan4
         plans.get(3).clear();
         System.out.println("plan4");
-        plans.get(3).addCourse(viableCourses.get(0)); // add the first course to plan4
+        plans.get(3).addCourse(viableCourses.get(1)); // add the first course to plan4
         ArrayList<Course> C4 = viableCourses;
         for(int n = 0; n < MAX_NUM_COURSES - 1; n++) { // the only difference is that here it add the third course in c4 to plan4 instead
             // of adding the first course in c1 to plan1
             String timeslot1 = plans.get(3).getCourseAt(n).getTimeSlot();
             C4 = noOverlapCourses(timeslot1, C4);
-            if (isInPlan(C4.get(3), plans.get(3)) == false)
-                plans.get(3).addCourse(C4.get(3));
+            if (isInPlan(C4.get(0), plans.get(3)) == false)
+                plans.get(3).addCourse(C4.get(0));
         }
 
         for (int i = 0; i < plans.get(3).getCourseList().size(); i++)
@@ -120,14 +120,14 @@ public class Generator {
         // plan5
         plans.get(4).clear();
         System.out.println("plan5");
-        plans.get(4).addCourse(viableCourses.get(0)); // add the first course to plan5
+        plans.get(4).addCourse(viableCourses.get(1)); // add the first course to plan5
         ArrayList<Course> C5 = viableCourses;
         for(int g = 0; g < MAX_NUM_COURSES - 1; g++) { // the only difference is that here it add the third course in c4 to plan4 instead
             // of adding the first course in c1 to plan1
             String timeslot1 = plans.get(4).getCourseAt(g).getTimeSlot();
             C5 = noOverlapCourses(timeslot1, C5);
-            if (isInPlan(C5.get(4), plans.get(4)) == false)
-                plans.get(4).addCourse(C5.get(4));
+            if (isInPlan(C5.get(1), plans.get(4)) == false)
+                plans.get(4).addCourse(C5.get(1));
         }
 
         for (int i = 0; i < plans.get(4).getCourseList().size(); i++)
@@ -233,9 +233,6 @@ public class Generator {
 
     public static void main(String[] args) throws Exception {
         ArrayList<Integer> coursesTaken = new ArrayList<Integer>();
-        coursesTaken.add(1);
-        coursesTaken.add(4);
-
         User xx = new User(123,1 , coursesTaken);
 
         Instant start = Instant.now();
