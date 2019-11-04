@@ -164,6 +164,42 @@ public class Generator {
         return output;
     }
 
+    
+    public static boolean isSplit(String timeSlot1, String timeSlot2) throws Exception {
+      boolean overlap = false;
+      if (timeSlot1.length()>11) {
+        String a1 = timeSlot1.substring(0, 11);
+        String a2 = timeSlot1.substring(11, 22);
+        if (timeSlot2.length()>11) { //if both courses have labs
+          String b1 = timeSlot2.substring(0, 11);
+          String b2 = timeSlot2.substring(11, 22);
+          overlap = ifOverlap(a1, b1);
+          if (overlap) return overlap;
+          overlap = ifOverlap(a1, b2);
+          if (overlap) return overlap;
+          overlap = ifOverlap(a2, b1);
+          if (overlap) return overlap;
+          overlap = ifOverlap(a2, b2);
+        }else{ //if the first course has lab
+          overlap = ifOverlap(a1, timeSlot2);
+          if (overlap) return overlap;
+          overlap = ifOverlap(a2, timeSlot2);
+        }
+      }else{
+        if (timeSlot2.length()>11) { //if the second course has lab
+          String b1 = timeSlot2.substring(0, 11);
+          String b2 = timeSlot2.substring(11, 22);
+          
+          overlap = ifOverlap(timeSlot1, b1);
+          if (overlap) return overlap;
+          overlap = ifOverlap(timeSlot1, b2);
+        }else{ //if both courses don't have labs
+          overlap = ifOverlap(timeSlot1, timeSlot2);
+        }
+      }
+      return overlap;
+    }
+    
     public static boolean ifOverlap(String timeSlot1, String timeSlot2) throws Exception {
         boolean overlap = false;
 
