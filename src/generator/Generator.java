@@ -71,7 +71,7 @@ public class Generator {
                             if (satisfyBreadth(C1.get(0), user) == true)
                                 plans.get(0).addCourse(C1.get(0));
                         }
-                        else
+                        else if (!isBreadth(C1.get(0)))
                             plans.get(0).addCourse(C1.get(0));
                     }
                     else if (isInPlan(C1.get(0), plans.get(0)) == true) {
@@ -99,11 +99,13 @@ public class Generator {
             System.out.println(plans.get(0).getCourseList().get(i));
         }
 
+        System.out.println("");
+
         // plan2
         plans.get(1).clear();
         System.out.println("plan2");
         for (int i = 1; i < viableCourses.size(); i++) {
-            if (!plans.get(0).getCourseIDs().contains(viableCourses.get(i).getCourseID())) {
+            if (!isInPlan2(viableCourses.get(i), plans.get(0))) {
                 plans.get(1).addCourse(viableCourses.get(i)); // add the first course to plan2
                 break;
             }
@@ -116,15 +118,15 @@ public class Generator {
                 String timeslot1 = plans.get(0).getCourseAt(k).getTimeSlot();
                 C2 = noOverlapCourses(timeslot1, C2);
                 if (C2.size() > 2) {
-                    if (isInPlan(C2.get(1), plans.get(1)) == false) {
-                        if (isBreadth(C2.get(1))) {
-                            if (satisfyBreadth(C2.get(1), user) == true)
-                                plans.get(1).addCourse(C2.get(1));
+                    if (isInPlan(C2.get(0), plans.get(1)) == false) {
+                        if (isBreadth(C2.get(0))) {
+                            if (satisfyBreadth(C2.get(0), user) == true)
+                                plans.get(1).addCourse(C2.get(0));
                         }
-                        else
-                            plans.get(1).addCourse(C2.get(1));
+                        else if (!isBreadth(C2.get(0)))
+                            plans.get(1).addCourse(C2.get(0));
                     }
-                    else if (isInPlan(C2.get(1), plans.get(1)) == true) {
+                    else if (isInPlan(C2.get(0), plans.get(1)) == true) {
                         for (int i = 0; i < C2.size(); i++) {
                             String timeslot2 = C2.get(i).getTimeSlot();
                             if (isSplit(timeslot1, timeslot2) == false && isInPlan(C2.get(i), plans.get(1)) == false) {
@@ -148,13 +150,13 @@ public class Generator {
         for (int i = 0; i < plans.get(1).getCourseList().size(); i++) {
             System.out.println(plans.get(1).getCourseList().get(i));
         }
+        System.out.println("");
 
         // plan3
         plans.get(2).clear();
         System.out.println("plan3");
         for (int i = 1; i < viableCourses.size(); i++) {
-            if (!plans.get(0).getCourseIDs().contains(viableCourses.get(i).getCourseID()) &&
-                    !plans.get(1).getCourseIDs().contains(viableCourses.get(i).getCourseID())) {
+            if (!isInPlan2(viableCourses.get(i), plans.get(0)) && !isInPlan2(viableCourses.get(i), plans.get(1))) {
                 plans.get(2).addCourse(viableCourses.get(i)); // add the first course to plan3
                 break;
             }
@@ -166,15 +168,15 @@ public class Generator {
                 String timeslot1 = plans.get(2).getCourseAt(m).getTimeSlot();
                 C3 = noOverlapCourses(timeslot1, C3);
                 if (C3.size() > 2) {
-                    if (isInPlan(C3.get(2), plans.get(2)) == false) {
-                        if (isBreadth(C3.get(2))) {
-                            if (satisfyBreadth(C3.get(2), user) == true)
-                                plans.get(2).addCourse(C3.get(2));
+                    if (isInPlan(C3.get(0), plans.get(2)) == false) {
+                        if (isBreadth(C3.get(0))) {
+                            if (satisfyBreadth(C3.get(0), user) == true)
+                                plans.get(2).addCourse(C3.get(0));
                         }
-                        else
-                            plans.get(2).addCourse(C3.get(2));
+                        else if (!isBreadth(C3.get(0)))
+                            plans.get(2).addCourse(C3.get(0));
                     }
-                    else if (isInPlan(C3.get(2), plans.get(2)) == true) {
+                    else if (isInPlan(C3.get(0), plans.get(2)) == true) {
                         for (int i = 0; i < C3.size(); i++) {
                             String timeslot2 = C3.get(i).getTimeSlot();
                             if (isSplit(timeslot1, timeslot2) == false && isInPlan(C3.get(i), plans.get(2)) == false) {
@@ -198,14 +200,13 @@ public class Generator {
         for (int i = 0; i < plans.get(2).getCourseList().size(); i++) {
             System.out.println(plans.get(2).getCourseList().get(i));
         }
+        System.out.println("");
 
         // plan4
         plans.get(3).clear();
         System.out.println("plan4");
         for (int i = 1; i < viableCourses.size(); i++) {
-            if (!plans.get(0).getCourseIDs().contains(viableCourses.get(i).getCourseID())
-                    && !plans.get(1).getCourseIDs().contains(viableCourses.get(i).getCourseID())
-            && !plans.get(2).getCourseIDs().contains(viableCourses.get(i).getCourseID())) {
+            if (!isInPlan2(viableCourses.get(i), plans.get(0)) && !isInPlan2(viableCourses.get(i), plans.get(1)) && !isInPlan2(viableCourses.get(i), plans.get(2))) {
                 plans.get(3).addCourse(viableCourses.get(i)); // add the first course to plan4
                 break;
             }
@@ -222,7 +223,7 @@ public class Generator {
                             if (satisfyBreadth(C4.get(0), user) == true)
                                 plans.get(3).addCourse(C4.get(0));
                         }
-                        else
+                        else if (!isBreadth(C4.get(0)))
                             plans.get(3).addCourse(C4.get(0));
                     }
                     else if (isInPlan(C4.get(0), plans.get(3)) == true) {
@@ -249,15 +250,13 @@ public class Generator {
         for (int i = 0; i < plans.get(3).getCourseList().size(); i++) {
             System.out.println(plans.get(3).getCourseList().get(i));
         }
+        System.out.println("");
 
         // plan5
         plans.get(4).clear();
         System.out.println("plan5");
         for (int i = 1; i < viableCourses.size(); i++) {
-            if (!plans.get(0).getCourseIDs().contains(viableCourses.get(i).getCourseID())
-                    && !plans.get(1).getCourseIDs().contains(viableCourses.get(i).getCourseID())
-                    && !plans.get(2).getCourseIDs().contains(viableCourses.get(i).getCourseID())
-                    && !plans.get(3).getCourseIDs().contains(viableCourses.get(i).getCourseID()))
+            if (!isInPlan2(viableCourses.get(i), plans.get(0)) && !isInPlan2(viableCourses.get(i), plans.get(1)) && !isInPlan2(viableCourses.get(i), plans.get(2)) && !isInPlan2(viableCourses.get(i), plans.get(3)))
             {
                 plans.get(4).addCourse(viableCourses.get(i)); // add the first course to plan5
                 break;
@@ -270,15 +269,15 @@ public class Generator {
                 String timeslot1 = plans.get(0).getCourseAt(g).getTimeSlot();
                 C5 = noOverlapCourses(timeslot1, C5);
                 if (C5.size() > 1) {
-                    if (isInPlan(C5.get(1), plans.get(4)) == false) {
-                        if (isBreadth(C5.get(1))) {
-                            if (satisfyBreadth(C5.get(1), user) == true)
-                                plans.get(4).addCourse(C5.get(1));
+                    if (isInPlan(C5.get(0), plans.get(4)) == false) {
+                        if (isBreadth(C5.get(0))) {
+                            if (satisfyBreadth(C5.get(0), user) == true)
+                                plans.get(4).addCourse(C5.get(0));
                         }
-                        else
-                            plans.get(4).addCourse(C5.get(1));
+                        else if (!isBreadth(C5.get(0)))
+                            plans.get(4).addCourse(C5.get(0));
                     }
-                    else if (isInPlan(C5.get(1), plans.get(4)) == true) {
+                    else if (isInPlan(C5.get(0), plans.get(4)) == true) {
                         for (int i = 0; i < C5.size(); i++) {
                             String timeslot2 = C5.get(i).getTimeSlot();
                             if (isSplit(timeslot1, timeslot2) == false && isInPlan(C5.get(i), plans.get(4)) == false) {
@@ -343,6 +342,17 @@ public class Generator {
         for (int i = 0; i < plan.getCourseList().size(); i++)
         {
             if (plan.getCourseList().get(i).getCourseCode().equals(course.getCourseCode()))
+                output = true;
+        }
+        return output;
+    }
+
+    public static boolean isInPlan2(Course course, Plan plan)
+    {
+        boolean output = false;
+        for (int i = 0; i < plan.getCourseList().size(); i++)
+        {
+            if (plan.getCourseList().get(i).getCourseID() == (course.getCourseID()))
                 output = true;
         }
         return output;
