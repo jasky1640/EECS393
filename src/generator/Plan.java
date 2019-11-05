@@ -16,6 +16,14 @@ public class Plan {
         return courseList;
     }
 
+    public static ArrayList<Integer> getCourseIDs() {
+        ArrayList<Integer> output = new ArrayList<Integer>();
+        for (int i = 0; i < courseList.size(); i++)
+            output.add(courseList.get(i).getCourseID());
+        return output;
+    }
+
+
     public static void clear()
     {
         courseList.clear();

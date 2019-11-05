@@ -103,7 +103,7 @@ public class Generator {
         plans.get(1).clear();
         System.out.println("plan2");
         for (int i = 1; i < viableCourses.size(); i++) {
-            if (!plans.get(0).getCourseList().contains(viableCourses.get(i))) {
+            if (!plans.get(0).getCourseIDs().contains(viableCourses.get(i).getCourseID())) {
                 plans.get(1).addCourse(viableCourses.get(i)); // add the first course to plan2
                 break;
             }
@@ -153,7 +153,8 @@ public class Generator {
         plans.get(2).clear();
         System.out.println("plan3");
         for (int i = 1; i < viableCourses.size(); i++) {
-            if (!plans.get(0).getCourseList().contains(viableCourses.get(i)) && !plans.get(1).getCourseList().contains(viableCourses.get(i))) {
+            if (!plans.get(0).getCourseIDs().contains(viableCourses.get(i).getCourseID()) &&
+                    !plans.get(1).getCourseIDs().contains(viableCourses.get(i).getCourseID())) {
                 plans.get(2).addCourse(viableCourses.get(i)); // add the first course to plan3
                 break;
             }
@@ -202,8 +203,9 @@ public class Generator {
         plans.get(3).clear();
         System.out.println("plan4");
         for (int i = 1; i < viableCourses.size(); i++) {
-            if (!plans.get(0).getCourseList().contains(viableCourses.get(i)) && !plans.get(1).getCourseList().contains(viableCourses.get(i))
-            && !plans.get(2).getCourseList().contains(viableCourses.get(i))) {
+            if (!plans.get(0).getCourseIDs().contains(viableCourses.get(i).getCourseID())
+                    && !plans.get(1).getCourseIDs().contains(viableCourses.get(i).getCourseID())
+            && !plans.get(2).getCourseIDs().contains(viableCourses.get(i).getCourseID())) {
                 plans.get(3).addCourse(viableCourses.get(i)); // add the first course to plan4
                 break;
             }
@@ -252,8 +254,11 @@ public class Generator {
         plans.get(4).clear();
         System.out.println("plan5");
         for (int i = 1; i < viableCourses.size(); i++) {
-            if (!plans.get(0).getCourseList().contains(viableCourses.get(i)) && !plans.get(1).getCourseList().contains(viableCourses.get(i))
-                    && !plans.get(2).getCourseList().contains(viableCourses.get(i)) && !plans.get(3).getCourseList().contains(viableCourses.get(i))) {
+            if (!plans.get(0).getCourseIDs().contains(viableCourses.get(i).getCourseID())
+                    && !plans.get(1).getCourseIDs().contains(viableCourses.get(i).getCourseID())
+                    && !plans.get(2).getCourseIDs().contains(viableCourses.get(i).getCourseID())
+                    && !plans.get(3).getCourseIDs().contains(viableCourses.get(i).getCourseID()))
+            {
                 plans.get(4).addCourse(viableCourses.get(i)); // add the first course to plan5
                 break;
             }
