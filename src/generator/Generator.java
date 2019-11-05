@@ -3,6 +3,7 @@ package generator;
 import dbconnect.CourseDBConnect;
 import dbconnect.UserInfoDBConnect;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
@@ -35,8 +36,8 @@ public class Generator {
         //Delete all taken course
         ArrayList<Course> qualifiedCourses = new ArrayList<>();
         ArrayList<String> courseTaken = UserInfoDBConnect.getCourseCodeTaken(user.getUserName());
-        for(Course course: courses)
-            if(!courseTaken.contains(course.getCourseCode()))
+        for (Course course : courses)
+            if (!courseTaken.contains(course.getCourseCode()))
                 qualifiedCourses.add(course);
 
         ArrayList<Course> viableCourses = new ArrayList<Course>();
@@ -44,34 +45,57 @@ public class Generator {
         for (int i = 0; i < qualifiedCourses.size(); i++) {
             if (user.metPrerequisite(qualifiedCourses.get(i)) == true) // first, find all courses that meet prerequisites and save them in
                 // an arraylist called viableCourses
-            {
                 viableCourses.add(qualifiedCourses.get(i));
-            }
         }
 
         System.out.println("-----");
-        for(Course c: viableCourses)
+        for (Course c : viableCourses)
             System.out.println(c.toString());
         System.out.println("-----");
 
+        // plan1
         plans.get(0).clear();
         System.out.println("plan1");
-        // plan1
         plans.get(0).addCourse(viableCourses.get(0)); // add the first course to plan1
         ArrayList<Course> C1 = viableCourses;
-        for(int j = 0; j < MAX_NUM_COURSES - 1; j++) { // first find every viable course that does not overlap with the
+        for (int j = 0; j < MAX_NUM_COURSES - 1; j++) { // first find every viable course that does not overlap with the
             // first course in plan1 and save it in array c1, then add the first course in c1 to plan1. Then find every viable
             // course that does not overlap with the second course in plan1, which is saved in c1 again, add the first course in
             // c1 to plan1. Repeat until reach the maximum number of courses allowed in one plan.
-
-            String timeslot1 = plans.get(0).getCourseAt(j).getTimeSlot();
-            C1 = noOverlapCourses(timeslot1, C1);
-            if (isInPlan(C1.get(0), plans.get(0)) == false)
-                plans.get(0).addCourse(C1.get(0));
+            if (C1.size() > 0) {
+                String timeslot1 = plans.get(0).getCourseAt(j).getTimeSlot();
+                C1 = noOverlapCourses(timeslot1, C1);
+                if (C1.size() > 0) {
+                    if (isInPlan(C1.get(0), plans.get(0)) == false) {
+                        if (isBreadth(C1.get(0))) {
+                            if (satisfyBreadth(C1.get(0), user) == true)
+                                plans.get(0).addCourse(C1.get(0));
+                        }
+                        else
+                            plans.get(0).addCourse(C1.get(0));
+                    }
+                    else if (isInPlan(C1.get(0), plans.get(0)) == true) {
+                        for (int i = 0; i < C1.size(); i++) {
+                            String timeslot2 = C1.get(i).getTimeSlot();
+                            if (isSplit(timeslot1, timeslot2) == false) {
+                                if (isBreadth(C1.get(i))) {
+                                    if (satisfyBreadth(C1.get(i), user) == true) {
+                                        plans.get(0).addCourse(C1.get(i));
+                                        break;
+                                    }
+                                }
+                                else {
+                                    plans.get(0).addCourse(C1.get(i));
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
-        for (int i = 0; i < plans.get(0).getCourseList().size(); i++)
-        {
+        for (int i = 0; i < plans.get(0).getCourseList().size(); i++) {
             System.out.println(plans.get(0).getCourseList().get(i));
         }
 
@@ -81,18 +105,42 @@ public class Generator {
         plans.get(1).addCourse(viableCourses.get(0)); // add the first course to plan2
         ArrayList<Course> C2 = viableCourses;
 
-        for(int k = 0; k < MAX_NUM_COURSES - 1; k++) { // the only difference is that here it add the second course in c2 to plan2 instead
+        for (int k = 0; k < MAX_NUM_COURSES - 1; k++) { // the only difference is that here it add the second course in c2 to plan2 instead
             // of adding the first course in c1 to plan1
             if (C2.size() > 2) {
-            String timeslot1 = plans.get(1).getCourseAt(k).getTimeSlot();
-            C2 = noOverlapCourses(timeslot1, C2);
-            if (isInPlan(C2.get(1), plans.get(1)) == false)
-                plans.get(1).addCourse(C2.get(1));
+                String timeslot1 = plans.get(0).getCourseAt(k).getTimeSlot();
+                C2 = noOverlapCourses(timeslot1, C2);
+                if (C2.size() > 2) {
+                    if (isInPlan(C2.get(1), plans.get(1)) == false) {
+                        if (isBreadth(C2.get(1))) {
+                            if (satisfyBreadth(C2.get(1), user) == true)
+                                plans.get(1).addCourse(C2.get(1));
+                        }
+                        else
+                            plans.get(1).addCourse(C2.get(1));
+                    }
+                    else if (isInPlan(C2.get(1), plans.get(1)) == true) {
+                        for (int i = 0; i < C2.size(); i++) {
+                            String timeslot2 = C2.get(i).getTimeSlot();
+                            if (isSplit(timeslot1, timeslot2) == false) {
+                                if (isBreadth(C2.get(i))) {
+                                    if (satisfyBreadth(C2.get(i), user) == true) {
+                                        plans.get(1).addCourse(C2.get(i));
+                                        break;
+                                    }
+                                }
+                                else {
+                                    plans.get(1).addCourse(C2.get(i));
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
 
-        for (int i = 0; i < plans.get(1).getCourseList().size(); i++)
-        {
+        for (int i = 0; i < plans.get(1).getCourseList().size(); i++) {
             System.out.println(plans.get(1).getCourseList().get(i));
         }
 
@@ -101,20 +149,42 @@ public class Generator {
         System.out.println("plan3");
         plans.get(2).addCourse(viableCourses.get(0)); // add the first course to plan3
         ArrayList<Course> C3 = viableCourses;
-        for(int m = 0; m < MAX_NUM_COURSES - 1; m++) { // the only difference is that here it add the third course in c3 to plan3 instead
+        for (int m = 0; m < MAX_NUM_COURSES - 1; m++) { // the only difference is that here it add the third course in c3 to plan3 instead
             // of adding the first course in c1 to plan1
-            if (C3.size() > 2){
-            String timeslot1 = plans.get(2).getCourseAt(m).getTimeSlot();
-            C3 = noOverlapCourses(timeslot1, C3);
             if (C3.size() > 2) {
-                if (isInPlan(C3.get(2), plans.get(2)) == false)
-                    plans.get(2).addCourse(C3.get(2));
-            }
+                String timeslot1 = plans.get(2).getCourseAt(m).getTimeSlot();
+                C3 = noOverlapCourses(timeslot1, C3);
+                if (C3.size() > 2) {
+                    if (isInPlan(C3.get(2), plans.get(2)) == false) {
+                        if (isBreadth(C3.get(2))) {
+                            if (satisfyBreadth(C3.get(2), user) == true)
+                                plans.get(2).addCourse(C3.get(2));
+                        }
+                        else
+                            plans.get(2).addCourse(C3.get(2));
+                    }
+                    else if (isInPlan(C3.get(2), plans.get(2)) == true) {
+                        for (int i = 0; i < C3.size(); i++) {
+                            String timeslot2 = C3.get(i).getTimeSlot();
+                            if (isSplit(timeslot1, timeslot2) == false) {
+                                if (isBreadth(C3.get(i))) {
+                                    if (satisfyBreadth(C3.get(i), user) == true) {
+                                        plans.get(2).addCourse(C3.get(i));
+                                        break;
+                                    }
+                                }
+                                else {
+                                    plans.get(2).addCourse(C3.get(i));
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
 
-        for (int i = 0; i < plans.get(2).getCourseList().size(); i++)
-        {
+        for (int i = 0; i < plans.get(2).getCourseList().size(); i++) {
             System.out.println(plans.get(2).getCourseList().get(i));
         }
 
@@ -123,16 +193,42 @@ public class Generator {
         System.out.println("plan4");
         plans.get(3).addCourse(viableCourses.get(1)); // add the first course to plan4
         ArrayList<Course> C4 = viableCourses;
-        for(int n = 0; n < MAX_NUM_COURSES - 1; n++) { // the only difference is that here it add the third course in c4 to plan4 instead
+        for (int n = 0; n < MAX_NUM_COURSES - 1; n++) { // the only difference is that here it add the third course in c4 to plan4 instead
             // of adding the first course in c1 to plan1
-            String timeslot1 = plans.get(3).getCourseAt(n).getTimeSlot();
-            C4 = noOverlapCourses(timeslot1, C4);
-            if (isInPlan(C4.get(0), plans.get(3)) == false)
-                plans.get(3).addCourse(C4.get(0));
+            if (C4.size() > 0) {
+                String timeslot1 = plans.get(3).getCourseAt(n).getTimeSlot();
+                C4 = noOverlapCourses(timeslot1, C4);
+                if (C4.size() > 0) {
+                    if (isInPlan(C4.get(0), plans.get(3)) == false) {
+                        if (isBreadth(C1.get(0))) {
+                            if (satisfyBreadth(C4.get(0), user) == true)
+                                plans.get(3).addCourse(C4.get(0));
+                        }
+                        else
+                            plans.get(3).addCourse(C4.get(0));
+                    }
+                    else if (isInPlan(C4.get(0), plans.get(3)) == true) {
+                        for (int i = 0; i < C4.size(); i++) {
+                            String timeslot2 = C4.get(i).getTimeSlot();
+                            if (isSplit(timeslot1, timeslot2) == false) {
+                                if (isBreadth(C4.get(i))) {
+                                    if (satisfyBreadth(C4.get(i), user) == true) {
+                                        plans.get(3).addCourse(C4.get(i));
+                                        break;
+                                    }
+                                }
+                                else {
+                                    plans.get(3).addCourse(C4.get(i));
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
-        for (int i = 0; i < plans.get(3).getCourseList().size(); i++)
-        {
+        for (int i = 0; i < plans.get(3).getCourseList().size(); i++) {
             System.out.println(plans.get(3).getCourseList().get(i));
         }
 
@@ -141,27 +237,77 @@ public class Generator {
         System.out.println("plan5");
         plans.get(4).addCourse(viableCourses.get(1)); // add the first course to plan5
         ArrayList<Course> C5 = viableCourses;
-        for(int g = 0; g < MAX_NUM_COURSES - 1; g++) { // the only difference is that here it add the third course in c4 to plan4 instead
+        for (int g = 0; g < MAX_NUM_COURSES - 1; g++) { // the only difference is that here it add the third course in c4 to plan4 instead
             // of adding the first course in c1 to plan1
             if (C5.size() > 1) {
-            String timeslot1 = plans.get(4).getCourseAt(g).getTimeSlot();
-            C5 = noOverlapCourses(timeslot1, C5);
-            if(C5.size() > 1)
-                {
-            if (isInPlan(C5.get(1), plans.get(4)) == false)
-                plans.get(4).addCourse(C5.get(1));
+                String timeslot1 = plans.get(0).getCourseAt(g).getTimeSlot();
+                C5 = noOverlapCourses(timeslot1, C5);
+                if (C5.size() > 1) {
+                    if (isInPlan(C5.get(1), plans.get(4)) == false) {
+                        if (isBreadth(C5.get(1))) {
+                            if (satisfyBreadth(C5.get(1), user) == true)
+                                plans.get(4).addCourse(C5.get(1));
+                        }
+                        else
+                            plans.get(4).addCourse(C5.get(1));
+                    }
+                    else if (isInPlan(C5.get(1), plans.get(4)) == true) {
+                        for (int i = 0; i < C5.size(); i++) {
+                            String timeslot2 = C5.get(i).getTimeSlot();
+                            if (isSplit(timeslot1, timeslot2) == false) {
+                                if (isBreadth(C5.get(i))) {
+                                    if (satisfyBreadth(C5.get(i), user) == true) {
+                                        plans.get(4).addCourse(C5.get(i));
+                                        break;
+                                    }
+                                }
+                                else {
+                                    plans.get(4).addCourse(C5.get(i));
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
 
-        for (int i = 0; i < plans.get(4).getCourseList().size(); i++)
-        {
+        for (int i = 0; i < plans.get(4).getCourseList().size(); i++) {
             System.out.println(plans.get(4).getCourseList().get(i));
         }
 
 
         user.setPlans(plans);
         return plans;
+    }
+
+    public static boolean isBreadth(Course course)
+    {
+        if (course.getCourseType().charAt(2) == '1')
+            return true;
+        else
+            return false;
+    }
+
+    public static boolean satisfyBreadth(Course course, User user)
+    {
+        boolean output = false;
+        ArrayList<String> breadthCourses = CourseDBConnect.getCourseDBConnectInstance().getBreadthCourseCodeList(); //should get all breadth courses from the database
+        int breadthCount = 0;
+        ArrayList<String> coursesTaken = UserInfoDBConnect.getCourseCodeTaken(user.getUserName());
+        for (int i = 0; i < breadthCourses.size(); i++) {
+            if (coursesTaken.contains(breadthCourses.get(i)))
+                breadthCount++;
+        }
+
+        if (isBreadth(course))
+            breadthCount++;
+
+        if (breadthCount < 6)
+            output = true;
+
+        return output;
+
     }
 
     public static boolean isInPlan(Course course, Plan plan)
