@@ -71,7 +71,12 @@ public class Generator {
                             if (satisfyBreadth(C1.get(0), user) == true)
                                 plans.get(0).addCourse(C1.get(0));
                         }
-                        else if (!isBreadth(C1.get(0)))
+                        else if (isDepth(C1.get(0)))
+                        {
+                            if (satisfyDepth(C1.get(0), user) == true)
+                                plans.get(0).addCourse(C1.get(0));
+                        }
+                        else if (!isBreadth(C1.get(0)) && !isDepth(C1.get(0)))
                             plans.get(0).addCourse(C1.get(0));
                     }
                     else if (isInPlan(C1.get(0), plans.get(0)) == true) {
@@ -80,6 +85,12 @@ public class Generator {
                             if (isSplit(timeslot1, timeslot2) == false && isInPlan(C1.get(i), plans.get(0)) == false) {
                                 if (isBreadth(C1.get(i))) {
                                     if (satisfyBreadth(C1.get(i), user) == true) {
+                                        plans.get(0).addCourse(C1.get(i));
+                                        break;
+                                    }
+                                }
+                                else if (isDepth(C1.get(i))) {
+                                    if (satisfyDepth(C1.get(i), user) == true) {
                                         plans.get(0).addCourse(C1.get(i));
                                         break;
                                     }
@@ -123,7 +134,12 @@ public class Generator {
                             if (satisfyBreadth(C2.get(0), user) == true)
                                 plans.get(1).addCourse(C2.get(0));
                         }
-                        else if (!isBreadth(C2.get(0)))
+                        else if (isDepth(C2.get(0)))
+                        {
+                            if (satisfyDepth(C2.get(0), user) == true)
+                                plans.get(1).addCourse(C2.get(0));
+                        }
+                        else if (!isBreadth(C2.get(0)) && !isDepth(C2.get(0)))
                             plans.get(1).addCourse(C2.get(0));
                     }
                     else if (isInPlan(C2.get(0), plans.get(1)) == true) {
@@ -132,6 +148,12 @@ public class Generator {
                             if (isSplit(timeslot1, timeslot2) == false && isInPlan(C2.get(i), plans.get(1)) == false) {
                                 if (isBreadth(C2.get(i))) {
                                     if (satisfyBreadth(C2.get(i), user) == true) {
+                                        plans.get(1).addCourse(C2.get(i));
+                                        break;
+                                    }
+                                }
+                                else if (isDepth(C2.get(i))) {
+                                    if (satisfyDepth(C2.get(i), user) == true) {
                                         plans.get(1).addCourse(C2.get(i));
                                         break;
                                     }
@@ -173,7 +195,12 @@ public class Generator {
                             if (satisfyBreadth(C3.get(0), user) == true)
                                 plans.get(2).addCourse(C3.get(0));
                         }
-                        else if (!isBreadth(C3.get(0)))
+                        else if (isDepth(C3.get(0)))
+                        {
+                            if (satisfyDepth(C3.get(0), user) == true)
+                                plans.get(2).addCourse(C3.get(0));
+                        }
+                        else if (!isBreadth(C3.get(0)) && !isDepth(C3.get(0)))
                             plans.get(2).addCourse(C3.get(0));
                     }
                     else if (isInPlan(C3.get(0), plans.get(2)) == true) {
@@ -182,6 +209,12 @@ public class Generator {
                             if (isSplit(timeslot1, timeslot2) == false && isInPlan(C3.get(i), plans.get(2)) == false) {
                                 if (isBreadth(C3.get(i))) {
                                     if (satisfyBreadth(C3.get(i), user) == true) {
+                                        plans.get(2).addCourse(C3.get(i));
+                                        break;
+                                    }
+                                }
+                                else if (isDepth(C3.get(i))) {
+                                    if (satisfyDepth(C3.get(i), user) == true) {
                                         plans.get(2).addCourse(C3.get(i));
                                         break;
                                     }
@@ -223,7 +256,12 @@ public class Generator {
                             if (satisfyBreadth(C4.get(0), user) == true)
                                 plans.get(3).addCourse(C4.get(0));
                         }
-                        else if (!isBreadth(C4.get(0)))
+                        else if (isDepth(C4.get(0)))
+                        {
+                            if (satisfyDepth(C4.get(0), user) == true)
+                                plans.get(3).addCourse(C4.get(0));
+                        }
+                        else if (!isBreadth(C4.get(0)) && !isDepth(C4.get(0)))
                             plans.get(3).addCourse(C4.get(0));
                     }
                     else if (isInPlan(C4.get(0), plans.get(3)) == true) {
@@ -232,6 +270,12 @@ public class Generator {
                             if (isSplit(timeslot1, timeslot2) == false && isInPlan(C4.get(i), plans.get(3)) == false) {
                                 if (isBreadth(C4.get(i))) {
                                     if (satisfyBreadth(C4.get(i), user) == true) {
+                                        plans.get(3).addCourse(C4.get(i));
+                                        break;
+                                    }
+                                }
+                                else if (isDepth(C4.get(i))) {
+                                    if (satisfyDepth(C4.get(i), user) == true) {
                                         plans.get(3).addCourse(C4.get(i));
                                         break;
                                     }
@@ -274,7 +318,12 @@ public class Generator {
                             if (satisfyBreadth(C5.get(0), user) == true)
                                 plans.get(4).addCourse(C5.get(0));
                         }
-                        else if (!isBreadth(C5.get(0)))
+                        else if (isDepth(C5.get(0)))
+                        {
+                            if (satisfyDepth(C5.get(0), user) == true)
+                                plans.get(4).addCourse(C5.get(0));
+                        }
+                        else if (!isBreadth(C5.get(0)) && !isDepth(C5.get(0)))
                             plans.get(4).addCourse(C5.get(0));
                     }
                     else if (isInPlan(C5.get(0), plans.get(4)) == true) {
@@ -283,6 +332,12 @@ public class Generator {
                             if (isSplit(timeslot1, timeslot2) == false && isInPlan(C5.get(i), plans.get(4)) == false) {
                                 if (isBreadth(C5.get(i))) {
                                     if (satisfyBreadth(C5.get(i), user) == true) {
+                                        plans.get(4).addCourse(C5.get(i));
+                                        break;
+                                    }
+                                }
+                                else if (isDepth(C5.get(i))) {
+                                    if (satisfyDepth(C5.get(i), user) == true) {
                                         plans.get(4).addCourse(C5.get(i));
                                         break;
                                     }
@@ -305,6 +360,34 @@ public class Generator {
 
         user.setPlans(plans);
         return plans;
+    }
+
+    public static boolean isDepth(Course course)
+    {
+        if (course.getCourseType().charAt(3) == '1')
+            return true;
+        else
+            return false;
+    }
+
+    public static boolean satisfyDepth(Course course, User user)
+    {
+        boolean output = false;
+        ArrayList<Course> depthCourses = CourseDBConnect.getCourseDBConnectInstance().getCourseListByDepth(user.getTrack());
+        int depthCount = 0;
+        ArrayList<String> coursesTaken = UserInfoDBConnect.getCourseCodeTaken(user.getUserName());
+        for (int i = 0; i < depthCourses.size(); i++) {
+            if (coursesTaken.contains(depthCourses.get(i).getCourseCode()))
+                depthCount++;
+        }
+
+        if (isDepth(course))
+            depthCount++;
+
+        if (depthCount < 5)
+            output = true;
+
+        return output;
     }
 
     public static boolean isBreadth(Course course)
