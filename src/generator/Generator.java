@@ -102,7 +102,12 @@ public class Generator {
         // plan2
         plans.get(1).clear();
         System.out.println("plan2");
-        plans.get(1).addCourse(viableCourses.get(1)); // add the first course to plan2
+        for (int i = 1; i < viableCourses.size(); i++) {
+            if (!plans.get(0).getCourseList().contains(viableCourses.get(i))) {
+                plans.get(1).addCourse(viableCourses.get(i)); // add the first course to plan2
+                break;
+            }
+        }
         ArrayList<Course> C2 = viableCourses;
 
         for (int k = 0; k < MAX_NUM_COURSES - 1; k++) { // the only difference is that here it add the second course in c2 to plan2 instead
@@ -147,7 +152,12 @@ public class Generator {
         // plan3
         plans.get(2).clear();
         System.out.println("plan3");
-        plans.get(2).addCourse(viableCourses.get(2)); // add the first course to plan3
+        for (int i = 1; i < viableCourses.size(); i++) {
+            if (!plans.get(0).getCourseList().contains(viableCourses.get(i)) && !plans.get(1).getCourseList().contains(viableCourses.get(i))) {
+                plans.get(2).addCourse(viableCourses.get(i)); // add the first course to plan3
+                break;
+            }
+        }
         ArrayList<Course> C3 = viableCourses;
         for (int m = 0; m < MAX_NUM_COURSES - 1; m++) { // the only difference is that here it add the third course in c3 to plan3 instead
             // of adding the first course in c1 to plan1
@@ -191,7 +201,13 @@ public class Generator {
         // plan4
         plans.get(3).clear();
         System.out.println("plan4");
-        plans.get(3).addCourse(viableCourses.get(3)); // add the first course to plan4
+        for (int i = 1; i < viableCourses.size(); i++) {
+            if (!plans.get(0).getCourseList().contains(viableCourses.get(i)) && !plans.get(1).getCourseList().contains(viableCourses.get(i))
+            && !plans.get(2).getCourseList().contains(viableCourses.get(i))) {
+                plans.get(3).addCourse(viableCourses.get(i)); // add the first course to plan4
+                break;
+            }
+        }
         ArrayList<Course> C4 = viableCourses;
         for (int n = 0; n < MAX_NUM_COURSES - 1; n++) { // the only difference is that here it add the third course in c4 to plan4 instead
             // of adding the first course in c1 to plan1
@@ -235,7 +251,13 @@ public class Generator {
         // plan5
         plans.get(4).clear();
         System.out.println("plan5");
-        plans.get(4).addCourse(viableCourses.get(4)); // add the first course to plan5
+        for (int i = 1; i < viableCourses.size(); i++) {
+            if (!plans.get(0).getCourseList().contains(viableCourses.get(i)) && !plans.get(1).getCourseList().contains(viableCourses.get(i))
+                    && !plans.get(2).getCourseList().contains(viableCourses.get(i)) && !plans.get(3).getCourseList().contains(viableCourses.get(i))) {
+                plans.get(4).addCourse(viableCourses.get(i)); // add the first course to plan5
+                break;
+            }
+        }
         ArrayList<Course> C5 = viableCourses;
         for (int g = 0; g < MAX_NUM_COURSES - 1; g++) { // the only difference is that here it add the third course in c4 to plan4 instead
             // of adding the first course in c1 to plan1
