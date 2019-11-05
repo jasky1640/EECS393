@@ -1259,7 +1259,6 @@ public class CourseDBConnect {
     }
 
      public Course getCourse(int id){
-        CourseDBConnect courseDBConnect = CourseDBConnect.getCourseDBConnectInstance();
          Connection conn = null;
          Statement stmt = null;
          ResultSet rs = null;
@@ -1376,8 +1375,94 @@ public class CourseDBConnect {
          return output;
      }
 
-    public static void main(String[] args) {
+     public ArrayList<Course> getCourseListByDepth(int depth){
+         Connection conn = null;
+         Statement stmt = null;
+         ResultSet rs = null;
+         try{
+             ArrayList<Course> output = new ArrayList<>();
+             int id = -1;
+             int credit = -1;
+             String courseCode = "";
+             String courseName = "";
+             String timeSlot = "";
+             String prerequisite = "";
+             String courseType = "";
+             //Register JDBC driver
+             Class.forName(JDBC_DRIVER);
+
+             //Open a connection
+             conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+             //Execute a query
+             stmt = conn.createStatement();
+             String sql = "";
+
+             if(depth == 1)
+                 sql = "SELECT * FROM courses.course Where depth = 1 or depth = 13";
+             if(depth == 2)
+                 sql = "SELECT * FROM courses.course Where depth = 2 or depth = 23 or depth = 25";
+             if(depth == 3)
+                 sql = "SELECT * FROM courses.course Where depth = 3 or depth = 13 or depth = 23";
+             if(depth == 4)
+                 sql = "SELECT * FROM courses.course Where depth = 4 or depth = 45";
+             if(depth == 5)
+                 sql = "SELECT * FROM courses.course Where depth = 5 or depth = 25 or depth = 45";
+             if(depth == 6)
+                 sql = "SELECT * FROM courses.course Where depth = 6";
+
+             rs = stmt.executeQuery(sql);
+
+             //Extract data from result set
+             //Retrieve by column name
+             while (rs.next()){
+                 id = rs.getInt("course_id");
+                 credit = rs.getInt("credit_hour");
+                 courseCode = rs.getString("course_code");
+                 courseName = rs.getString("name");
+                 timeSlot = rs.getString("time_slots");
+                 prerequisite = rs.getString("prerequisite_courses");
+                 courseType = rs.getString("type");
+                 if(prerequisite == null)
+                     prerequisite = "";
+                 output.add(new Course(id, credit, 2, courseCode, courseName, timeSlot, prerequisite, courseType, Course.NO_SUBSTITUTES));
+             }
+             //Clean-up environment
+             rs.close();
+             stmt.close();
+             conn.close();
+             return output;
+         }
+         catch(SQLException se){
+             //Handle errors for JDBC
+             se.printStackTrace();
+         }
+         catch(Exception e){
+             //Handle errors for Class.forName
+             e.printStackTrace();
+         }
+         finally{
+             //finally block used to close resources
+             try{
+                 if(stmt!=null)
+                     stmt.close();
+             }
+             catch(SQLException se2){
+             }// nothing we can do
+             try{
+                 if(conn!=null)
+                     conn.close();
+             }
+             catch(SQLException se){
+                 se.printStackTrace();
+             }
+         }
+         return null;
+     }
+
+     public static void main(String[] args) {
         CourseDBConnect db = CourseDBConnect.getCourseDBConnectInstance();
-        db.getCourse(1).printCourse();
-    }
+        for(Course c: db.getCourseListByDepth(3))
+            System.out.println(c.toString());
+     }
 }
