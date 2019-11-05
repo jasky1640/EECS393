@@ -77,7 +77,7 @@ public class Generator {
                     else if (isInPlan(C1.get(0), plans.get(0)) == true) {
                         for (int i = 0; i < C1.size(); i++) {
                             String timeslot2 = C1.get(i).getTimeSlot();
-                            if (isSplit(timeslot1, timeslot2) == false) {
+                            if (isSplit(timeslot1, timeslot2) == false && isInPlan(C1.get(i), plans.get(0)) == false) {
                                 if (isBreadth(C1.get(i))) {
                                     if (satisfyBreadth(C1.get(i), user) == true) {
                                         plans.get(0).addCourse(C1.get(i));
@@ -122,7 +122,7 @@ public class Generator {
                     else if (isInPlan(C2.get(1), plans.get(1)) == true) {
                         for (int i = 0; i < C2.size(); i++) {
                             String timeslot2 = C2.get(i).getTimeSlot();
-                            if (isSplit(timeslot1, timeslot2) == false) {
+                            if (isSplit(timeslot1, timeslot2) == false && isInPlan(C2.get(i), plans.get(1)) == false) {
                                 if (isBreadth(C2.get(i))) {
                                     if (satisfyBreadth(C2.get(i), user) == true) {
                                         plans.get(1).addCourse(C2.get(i));
@@ -166,7 +166,7 @@ public class Generator {
                     else if (isInPlan(C3.get(2), plans.get(2)) == true) {
                         for (int i = 0; i < C3.size(); i++) {
                             String timeslot2 = C3.get(i).getTimeSlot();
-                            if (isSplit(timeslot1, timeslot2) == false) {
+                            if (isSplit(timeslot1, timeslot2) == false && isInPlan(C3.get(i), plans.get(2)) == false) {
                                 if (isBreadth(C3.get(i))) {
                                     if (satisfyBreadth(C3.get(i), user) == true) {
                                         plans.get(2).addCourse(C3.get(i));
@@ -210,7 +210,7 @@ public class Generator {
                     else if (isInPlan(C4.get(0), plans.get(3)) == true) {
                         for (int i = 0; i < C4.size(); i++) {
                             String timeslot2 = C4.get(i).getTimeSlot();
-                            if (isSplit(timeslot1, timeslot2) == false) {
+                            if (isSplit(timeslot1, timeslot2) == false && isInPlan(C4.get(i), plans.get(3)) == false) {
                                 if (isBreadth(C4.get(i))) {
                                     if (satisfyBreadth(C4.get(i), user) == true) {
                                         plans.get(3).addCourse(C4.get(i));
@@ -254,7 +254,7 @@ public class Generator {
                     else if (isInPlan(C5.get(1), plans.get(4)) == true) {
                         for (int i = 0; i < C5.size(); i++) {
                             String timeslot2 = C5.get(i).getTimeSlot();
-                            if (isSplit(timeslot1, timeslot2) == false) {
+                            if (isSplit(timeslot1, timeslot2) == false && isInPlan(C5.get(i), plans.get(4)) == false) {
                                 if (isBreadth(C5.get(i))) {
                                     if (satisfyBreadth(C5.get(i), user) == true) {
                                         plans.get(4).addCourse(C5.get(i));
