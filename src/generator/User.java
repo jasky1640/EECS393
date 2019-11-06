@@ -14,16 +14,8 @@ public class User {
         this.track = trackChoice;
     }
 
-    public ArrayList<Plan> getPlans() {
-        return this.plans;
-    }
-
     public void setPlans(ArrayList<Plan> newPlans) {
         this.plans.addAll(newPlans);
-    }
-
-    public void addPlans(Plan newPlans) {
-        this.plans.add(newPlans);
     }
 
     public int getTrack() {
@@ -32,14 +24,6 @@ public class User {
 
     public String getUserName() {
         return this.userName;
-    }
-
-    public void updateTrack(int input) {
-        this.track = input;
-    }
-
-    public void updateUserName(String input) {
-        this.userName = input;
     }
 
     public String toString() {
