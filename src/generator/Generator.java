@@ -70,12 +70,19 @@ public class Generator {
                             if (satisfyBreadth(C1.get(0), user) == true)
                                 plans.get(0).addCourse(C1.get(0));
                         }
-                        else if (isDepth(C1.get(0))) // if the course is depth, check depth requirement
-                        {
+                        else if (isDepth(C1.get(0))){ // if the course is depth, check depth requirement
                             if (satisfyDepth(C1.get(0), user) == true)
                                 plans.get(0).addCourse(C1.get(0));
                         }
-                        else if (!isBreadth(C1.get(0)) && !isDepth(C1.get(0))) // otherwise, add it to current plan
+                        else if (isStat(C1.get(0))){
+                            if (satisfyStat(user) == true)
+                                plans.get(0).addCourse(C1.get(0));
+                        }
+                        else if (C1.get(0).getCourseCode() == "MATH201" || C1.get(0).getCourseCode() == "MATH307"){
+                            if (hardCode(user) == true)
+                                plans.get(0).addCourse(C1.get(0));
+                        }
+                        else // otherwise, add it to current plan
                             plans.get(0).addCourse(C1.get(0));
                     }
                     else if (isInPlan(C1.get(0), plans.get(0)) == true) { // if the course is already in current plan, find another viable course to replace it
@@ -90,6 +97,18 @@ public class Generator {
                                 }
                                 else if (isDepth(C1.get(i))) { // check depth requirement
                                     if (satisfyDepth(C1.get(i), user) == true) {
+                                        plans.get(0).addCourse(C1.get(i));
+                                        break;
+                                    }
+                                }
+                                else if (isStat(C1.get(i))){ // check stat requirement
+                                    if (satisfyStat(user) == true){
+                                        plans.get(0).addCourse(C1.get(i));
+                                        break;
+                                    }
+                                }
+                                else if (C1.get(i).getCourseCode() == "MATH201" || C1.get(i).getCourseCode() == "MATH307"){
+                                    if (hardCode(user) == true) {
                                         plans.get(0).addCourse(C1.get(i));
                                         break;
                                     }
@@ -116,8 +135,17 @@ public class Generator {
         System.out.println("plan2");
         for (int i = 1; i < viableCourses.size(); i++) {
             if (!isInPlan2(viableCourses.get(i), plans.get(0))) {
-                plans.get(1).addCourse(viableCourses.get(i)); // add the first course to plan2
-                break;
+                if (viableCourses.get(i).getCourseCode() == "MATH201" || viableCourses.get(i).getCourseCode() == "MATH307")
+                {
+                    if (hardCode(user) == true) {
+                        plans.get(1).addCourse(viableCourses.get(i)); // add the first course to plan2
+                        break;
+                    }
+                }
+                else {
+                    plans.get(1).addCourse(viableCourses.get(i)); // add the first course to plan2
+                    break;
+                }
             }
         }
         ArrayList<Course> C2 = viableCourses;
@@ -137,7 +165,15 @@ public class Generator {
                             if (satisfyDepth(C2.get(0), user) == true)
                                 plans.get(1).addCourse(C2.get(0));
                         }
-                        else if (!isBreadth(C2.get(0)) && !isDepth(C2.get(0)))
+                        else if (isStat(C2.get(0))){
+                            if (satisfyStat(user) == true)
+                                plans.get(1).addCourse(C2.get(0));
+                        }
+                        else if (C2.get(0).getCourseCode() == "MATH201" || C2.get(0).getCourseCode() == "MATH307"){
+                            if (hardCode(user) == true)
+                                plans.get(1).addCourse(C2.get(0));
+                        }
+                        else
                             plans.get(1).addCourse(C2.get(0));
                     }
                     else if (isInPlan(C2.get(0), plans.get(1)) == true) {
@@ -152,6 +188,18 @@ public class Generator {
                                 }
                                 else if (isDepth(C2.get(i))) {
                                     if (satisfyDepth(C2.get(i), user) == true) {
+                                        plans.get(1).addCourse(C2.get(i));
+                                        break;
+                                    }
+                                }
+                                else if (isStat(C2.get(i))){
+                                    if (satisfyStat(user) == true) {
+                                        plans.get(1).addCourse(C2.get(i));
+                                        break;
+                                    }
+                                }
+                                else if (C1.get(i).getCourseCode() == "MATH201" || C1.get(i).getCourseCode() == "MATH307"){
+                                    if (hardCode(user) == true) {
                                         plans.get(1).addCourse(C2.get(i));
                                         break;
                                     }
@@ -177,8 +225,15 @@ public class Generator {
         System.out.println("plan3");
         for (int i = 1; i < viableCourses.size(); i++) {
             if (!isInPlan2(viableCourses.get(i), plans.get(0)) && !isInPlan2(viableCourses.get(i), plans.get(1))) {
-                plans.get(2).addCourse(viableCourses.get(i)); // add the first course to plan3
-                break;
+                if (viableCourses.get(i).getCourseCode() == "MATH201" || viableCourses.get(i).getCourseCode() == "MATH307") {
+                    if (hardCode(user) == true) {
+                        plans.get(2).addCourse(viableCourses.get(i)); // add the first course to plan2
+                        break;
+                    }
+                } else {
+                    plans.get(2).addCourse(viableCourses.get(i)); // add the first course to plan2
+                    break;
+                }
             }
         }
         ArrayList<Course> C3 = viableCourses;
@@ -197,7 +252,15 @@ public class Generator {
                             if (satisfyDepth(C3.get(0), user) == true)
                                 plans.get(2).addCourse(C3.get(0));
                         }
-                        else if (!isBreadth(C3.get(0)) && !isDepth(C3.get(0)))
+                        else if (isStat(C3.get(0))){
+                            if (satisfyStat(user) == true)
+                                plans.get(2).addCourse(C3.get(0));
+                        }
+                        else if (C3.get(0).getCourseCode() == "MATH201" || C3.get(0).getCourseCode() == "MATH307"){
+                            if (hardCode(user) == true)
+                                plans.get(2).addCourse(C3.get(0));
+                        }
+                        else
                             plans.get(2).addCourse(C3.get(0));
                     }
                     else if (isInPlan(C3.get(0), plans.get(2)) == true) {
@@ -212,6 +275,18 @@ public class Generator {
                                 }
                                 else if (isDepth(C3.get(i))) {
                                     if (satisfyDepth(C3.get(i), user) == true) {
+                                        plans.get(2).addCourse(C3.get(i));
+                                        break;
+                                    }
+                                }
+                                else if (isStat(C3.get(i))){
+                                    if (satisfyStat(user) == true) {
+                                        plans.get(2).addCourse(C3.get(i));
+                                        break;
+                                    }
+                                }
+                                else if (C3.get(i).getCourseCode() == "MATH201" || C3.get(i).getCourseCode() == "MATH307"){
+                                    if (hardCode(user) == true) {
                                         plans.get(2).addCourse(C3.get(i));
                                         break;
                                     }
@@ -237,8 +312,17 @@ public class Generator {
         System.out.println("plan4");
         for (int i = 1; i < viableCourses.size(); i++) {
             if (!isInPlan2(viableCourses.get(i), plans.get(0)) && !isInPlan2(viableCourses.get(i), plans.get(1)) && !isInPlan2(viableCourses.get(i), plans.get(2))) {
-                plans.get(3).addCourse(viableCourses.get(i)); // add the first course to plan4
-                break;
+                if (viableCourses.get(i).getCourseCode() == "MATH201" || viableCourses.get(i).getCourseCode() == "MATH307")
+                {
+                    if (hardCode(user) == true) {
+                        plans.get(3).addCourse(viableCourses.get(i)); // add the first course to plan2
+                        break;
+                    }
+                }
+                else {
+                    plans.get(3).addCourse(viableCourses.get(i)); // add the first course to plan2
+                    break;
+                }
             }
         }
         ArrayList<Course> C4 = viableCourses;
@@ -257,7 +341,15 @@ public class Generator {
                             if (satisfyDepth(C4.get(0), user) == true)
                                 plans.get(3).addCourse(C4.get(0));
                         }
-                        else if (!isBreadth(C4.get(0)) && !isDepth(C4.get(0)))
+                        else if (isStat(C4.get(0))){
+                            if (satisfyStat(user) == true)
+                                plans.get(3).addCourse(C4.get(0));
+                        }
+                        else if (C4.get(0).getCourseCode() == "MATH201" || C4.get(0).getCourseCode() == "MATH307"){
+                            if (hardCode(user) == true)
+                                plans.get(3).addCourse(C4.get(0));
+                        }
+                        else
                             plans.get(3).addCourse(C4.get(0));
                     }
                     else if (isInPlan(C4.get(0), plans.get(3)) == true) {
@@ -272,6 +364,18 @@ public class Generator {
                                 }
                                 else if (isDepth(C4.get(i))) {
                                     if (satisfyDepth(C4.get(i), user) == true) {
+                                        plans.get(3).addCourse(C4.get(i));
+                                        break;
+                                    }
+                                }
+                                else if (isStat(C4.get(i))){
+                                    if (satisfyStat(user) == true) {
+                                        plans.get(3).addCourse(C4.get(i));
+                                        break;
+                                    }
+                                }
+                                else if (C4.get(i).getCourseCode() == "MATH201" || C4.get(i).getCourseCode() == "MATH307"){
+                                    if (hardCode(user) == true) {
                                         plans.get(3).addCourse(C4.get(i));
                                         break;
                                     }
@@ -298,8 +402,17 @@ public class Generator {
         for (int i = 1; i < viableCourses.size(); i++) {
             if (!isInPlan2(viableCourses.get(i), plans.get(0)) && !isInPlan2(viableCourses.get(i), plans.get(1)) && !isInPlan2(viableCourses.get(i), plans.get(2)) && !isInPlan2(viableCourses.get(i), plans.get(3)))
             {
-                plans.get(4).addCourse(viableCourses.get(i)); // add the first course to plan5
-                break;
+                if (viableCourses.get(i).getCourseCode() == "MATH201" || viableCourses.get(i).getCourseCode() == "MATH307")
+                {
+                    if (hardCode(user) == true) {
+                        plans.get(4).addCourse(viableCourses.get(i)); // add the first course to plan2
+                        break;
+                    }
+                }
+                else {
+                    plans.get(4).addCourse(viableCourses.get(i)); // add the first course to plan2
+                    break;
+                }
             }
         }
         ArrayList<Course> C5 = viableCourses;
@@ -318,7 +431,15 @@ public class Generator {
                             if (satisfyDepth(C5.get(0), user) == true)
                                 plans.get(4).addCourse(C5.get(0));
                         }
-                        else if (!isBreadth(C5.get(0)) && !isDepth(C5.get(0)))
+                        else if (isStat(C5.get(0))){
+                            if (satisfyStat(user) == true)
+                                plans.get(4).addCourse(C5.get(0));
+                        }
+                        else if (C5.get(0).getCourseCode() == "MATH201" || C5.get(0).getCourseCode() == "MATH307"){
+                            if (hardCode(user) == true)
+                                plans.get(4).addCourse(C5.get(0));
+                        }
+                        else
                             plans.get(4).addCourse(C5.get(0));
                     }
                     else if (isInPlan(C5.get(0), plans.get(4)) == true) {
@@ -336,6 +457,16 @@ public class Generator {
                                         plans.get(4).addCourse(C5.get(i));
                                         break;
                                     }
+                                }
+                                else if (isStat(C5.get(i))){
+                                    if (satisfyStat(user) == true) {
+                                        plans.get(4).addCourse(C5.get(i));
+                                        break;
+                                    }
+                                }
+                                else if (C5.get(i).getCourseCode() == "MATH201" || C5.get(i).getCourseCode() == "MATH307"){
+                                    if (hardCode(user) == true)
+                                        plans.get(4).addCourse(C5.get(i));
                                 }
                                 else {
                                     plans.get(4).addCourse(C5.get(i));
@@ -355,6 +486,37 @@ public class Generator {
 
         user.setPlans(plans);
         return plans;
+    }
+
+    public static boolean hardCode(User user)
+    {
+        boolean output = true;
+        ArrayList<String> coursesTaken = UserInfoDBConnect.getCourseCodeTaken(user.getUserName());
+
+        if (coursesTaken.contains("MATH201") || coursesTaken.contains("MATH307"))
+            output = false;
+        return output;
+    }
+
+    public static boolean isStat(Course course) // check if a course is statistics
+    {
+        if (course.getCourseType().charAt(5) == '1')
+            return true;
+        else
+            return false;
+    }
+
+    public static boolean satisfyStat(User user)
+    {
+        boolean output = true;
+        ArrayList<String> statCourses = CourseDBConnect.getCourseDBConnectInstance().getStatisticsCourseCodeList();
+        ArrayList<String> coursesTaken = UserInfoDBConnect.getCourseCodeTaken(user.getUserName());
+        for (int i = 0; i < statCourses.size(); i++) {
+            if (coursesTaken.contains(statCourses.get(i)))
+                output = false;
+        }
+
+        return output;
     }
 
     public static boolean isDepth(Course course) // check if a course is depth
