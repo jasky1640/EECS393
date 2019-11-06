@@ -1459,10 +1459,4 @@ public class CourseDBConnect {
          }
          return null;
      }
-
-     public static void main(String[] args) {
-        CourseDBConnect db = CourseDBConnect.getCourseDBConnectInstance();
-        for(Course c: db.getCourseListByDepth(3))
-            System.out.println(c.toString());
-     }
 }
