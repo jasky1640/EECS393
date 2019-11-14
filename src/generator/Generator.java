@@ -488,6 +488,124 @@ public class Generator {
         return plans;
     }
 
+    public static void addLPCourses(ArrayList<Plan> plans, ArrayList<Course> UserChoice)
+    {
+        for (int j = 0; j < plans.size(); j++) {
+            if (!plans.get(j).isFullPlan()) {
+                for (int i = plans.get(j).getCourseList().size(); i < MAX_NUM_COURSES; i++)
+                    plans.get(j).addCourse(UserChoice.get(i));
+            }
+        }
+    }
+
+    public static Plan getLPoptions(User user, Plan plan) throws Exception {
+        ArrayList<Integer> Group1CourseIDs = CourseDBConnect.getCourseDBConnectInstance().getElectiveGroup1CourseList();
+        ArrayList<Integer> Group2CourseIDs = CourseDBConnect.getCourseDBConnectInstance().getElectiveGroup2CourseList();
+        Group1CourseIDs.addAll(Group2CourseIDs);
+        ArrayList<Course> Group1Courses = new ArrayList<>();
+        for (int i = 0; i < Group1CourseIDs.size(); i++)
+            Group1Courses.add(CourseDBConnect.getCourseDBConnectInstance().getCourse(Group1CourseIDs.get(i)));
+
+        ArrayList<Course> qualifiedCourses = new ArrayList<>();
+        ArrayList<String> courseTaken = UserInfoDBConnect.getCourseCodeTaken(user.getUserName());
+        for (Course course : Group1Courses)
+            if (!courseTaken.contains(course.getCourseCode()))
+                qualifiedCourses.add(course);
+
+        ArrayList<Course> viableCourses = new ArrayList<>();
+
+        for (int i = 0; i < qualifiedCourses.size(); i++) {
+            if (user.metPrerequisite(qualifiedCourses.get(i)) == true)
+                viableCourses.add(qualifiedCourses.get(i));
+        }
+
+        ArrayList<Course> C = viableCourses;
+
+        for (int i = plan.getNumOfCourses(); i < MAX_NUM_COURSES; i++) {
+            String timeslot1 = plan.getCourseAt(i).getTimeSlot();
+            C = noOverlapCourses(timeslot1, C);
+                if (!isInPlan(C.get(0), plan)) {
+                    if (isGroup1(C.get(0))) {
+                        if (satisfyElective(C.get(0), user)) {
+                            plan.addCourse(C.get(0));
+                            break;
+                        }
+                    }
+                    else if (isGroup2(C.get(0))){
+                        if(satisfyGroup2(C.get(0), user) && satisfyElective(C.get(0), user)){
+                            plan.addCourse(C.get(0));
+                            break;
+                        }
+                    }
+                }
+            }
+
+        return plan;
+
+
+    }
+
+    public static boolean isGroup1(Course course) // check if a course is group1
+    {
+        if (course.getCourseType().charAt(4) == '1')
+            return true;
+        else
+            return false;
+    }
+
+    public static boolean isGroup2(Course course) // check if a course is group2
+    {
+        if (course.getCourseType().charAt(4) == '2')
+            return true;
+        else
+            return false;
+    }
+
+    public static boolean satisfyElective(Course course, User user)
+    {
+        boolean output = false;
+        int electiveCount = 0;
+        ArrayList<String> Group1Courses = CourseDBConnect.getCourseDBConnectInstance().getElectiveGroup1CourseCodeList();
+        ArrayList<String> Group2Courses = CourseDBConnect.getCourseDBConnectInstance().getElectiveGroup2CourseCodeList();
+        Group1Courses.addAll(Group2Courses);
+
+        ArrayList<String> coursesTaken = UserInfoDBConnect.getCourseCodeTaken((user.getUserName()));
+
+        for (int i = 0; i < Group1Courses.size(); i++) {
+            if (coursesTaken.contains(Group1Courses.get(i)))
+                electiveCount++;
+        }
+
+        if(isGroup2(course) || isGroup1(course))
+            electiveCount++;
+
+        if (electiveCount < 6)
+            output = true;
+
+        return output;
+    }
+
+    public static boolean satisfyGroup2(Course course, User user)
+    {
+        boolean output = false;
+        int Group2count = 0;
+        ArrayList<String> Group2Courses = CourseDBConnect.getCourseDBConnectInstance().getElectiveGroup2CourseCodeList();
+        ArrayList<String> coursesTaken = UserInfoDBConnect.getCourseCodeTaken((user.getUserName()));
+
+        for (int i = 0;  i < Group2Courses.size(); i++) {
+            if (coursesTaken.contains(Group2Courses.get(i)))
+                Group2count++;
+        }
+
+        if (isGroup2(course))
+            Group2count++;
+
+        if (Group2count < 3) // if the user has taken no more than 2 courses from group2, return true
+            output = true;
+
+        return output;
+    }
+
     public static boolean hardCode(User user)
     {
         boolean output = true;
