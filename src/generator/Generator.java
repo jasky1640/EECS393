@@ -498,7 +498,8 @@ public class Generator {
         }
     }
 
-    public static Plan getLPoptions(User user, Plan plan) throws Exception {
+    public static ArrayList<Course> getLPoptions(User user, Plan plan) throws Exception { // Given a not full plan,
+        // this method should return viable low priority courses that the user could choose from
         ArrayList<Integer> Group1CourseIDs = CourseDBConnect.getCourseDBConnectInstance().getElectiveGroup1CourseList();
         ArrayList<Integer> Group2CourseIDs = CourseDBConnect.getCourseDBConnectInstance().getElectiveGroup2CourseList();
         Group1CourseIDs.addAll(Group2CourseIDs);
@@ -520,28 +521,23 @@ public class Generator {
         }
 
         ArrayList<Course> C = viableCourses;
+        ArrayList<Course> output = new ArrayList<Course>();
 
-        for (int i = plan.getNumOfCourses(); i < MAX_NUM_COURSES; i++) {
+        for (int i = 0; i < plan.getNumOfCourses(); i++) {
             String timeslot1 = plan.getCourseAt(i).getTimeSlot();
             C = noOverlapCourses(timeslot1, C);
                 if (!isInPlan(C.get(0), plan)) {
                     if (isGroup1(C.get(0))) {
-                        if (satisfyElective(C.get(0), user)) {
-                            plan.addCourse(C.get(0));
-                            break;
-                        }
+                        if (satisfyElective(C.get(0), user))
+                            output.add(C.get(0));
                     }
                     else if (isGroup2(C.get(0))){
-                        if(satisfyGroup2(C.get(0), user) && satisfyElective(C.get(0), user)){
-                            plan.addCourse(C.get(0));
-                            break;
-                        }
+                        if(satisfyGroup2(C.get(0), user) && satisfyElective(C.get(0), user))
+                            output.add(C.get(0));
                     }
                 }
             }
-
-        return plan;
-
+        return output;
 
     }
 
