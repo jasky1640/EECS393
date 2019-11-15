@@ -488,14 +488,10 @@ public class Generator {
         return plans;
     }
 
-    public static void addLPCourses(ArrayList<Plan> plans, ArrayList<Course> UserChoice)
+    public static void addLPCourses(Plan plan, ArrayList<Course> UserChoice)
     {
-        for (int j = 0; j < plans.size(); j++) {
-            if (!plans.get(j).isFullPlan()) {
-                for (int i = plans.get(j).getCourseList().size(); i < MAX_NUM_COURSES; i++)
-                    plans.get(j).addCourse(UserChoice.get(i));
-            }
-        }
+        for (int i = plan.getCourseList().size(); i < MAX_NUM_COURSES; i++)
+            plan.addCourse(UserChoice.get(i));
     }
 
     public static ArrayList<Course> getLPoptions(User user, Plan plan) throws Exception { // Given a not full plan,
