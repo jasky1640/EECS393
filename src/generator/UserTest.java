@@ -7,11 +7,19 @@ import org.junit.jupiter.api.Test;
 public class UserTest {
 
     @Test
-    public void metPrerequisiteTest()
+    public void metPrerequisiteTest1()
     {
         Course testCourse = CourseDBConnect.getCourseDBConnectInstance().getCourse(18);
         User user = new User("jieyu", 1);
         Assert.assertTrue(user.metPrerequisite(testCourse));
+    }
+
+    @Test
+    public void metPrerequisiteTest2()
+    {
+        Course testCourse = CourseDBConnect.getCourseDBConnectInstance().getCourse(18);
+        User user = new User("zhizhi", 1);
+        Assert.assertFalse(user.metPrerequisite(testCourse));
     }
 
     @Test

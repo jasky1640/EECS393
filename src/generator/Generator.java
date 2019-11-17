@@ -519,7 +519,7 @@ public class Generator {
         ArrayList<Course> C = viableCourses;
         ArrayList<Course> output = new ArrayList<Course>();
 
-        for (int i = 0; i < plan.getNumOfCourses(); i++) {
+        for (int i = 0; i < plan.getCourseList().size(); i++) {
             String timeslot1 = plan.getCourseAt(i).getTimeSlot();
             C = noOverlapCourses(timeslot1, C);
                 if (!isInPlan(C.get(0), plan)) {

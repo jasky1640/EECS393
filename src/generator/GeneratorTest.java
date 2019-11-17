@@ -1,3 +1,6 @@
+package generator;
+
+import dbconnect.CourseDBConnect;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
@@ -8,7 +11,7 @@ public class GeneratorTest {
     @Test
     public void generateTest1() throws Exception {
         User u1 = new User("ge1", 1);
-        ArrayList<Course> courses = CourseDBConnect.getAllHighPriorityCoursesByPriority();
+        ArrayList<Course> courses = CourseDBConnect.getCourseDBConnectInstance().getAllHighPriorityCoursesByPriority();
 
         Plan planA = new Plan();
         Plan planB = new Plan();
@@ -16,35 +19,35 @@ public class GeneratorTest {
         Plan planD = new Plan();
         Plan planE = new Plan();
 
-        planA.addCourse(CourseDBConnect.getCourse(1));
-        planA.addCourse(CourseDBConnect.getCourse(1));
-        planA.addCourse(CourseDBConnect.getCourse(1));
-        planA.addCourse(CourseDBConnect.getCourse(1));
-        planA.addCourse(CourseDBConnect.getCourse(1));
+        planA.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
+        planA.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
+        planA.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
+        planA.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
+        planA.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
 
-        planB.addCourse(CourseDBConnect.getCourse(1));
-        planB.addCourse(CourseDBConnect.getCourse(1));
-        planB.addCourse(CourseDBConnect.getCourse(1));
-        planB.addCourse(CourseDBConnect.getCourse(1));
-        planB.addCourse(CourseDBConnect.getCourse(1));
+        planB.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
+        planB.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
+        planB.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
+        planB.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
+        planB.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
 
-        planC.addCourse(CourseDBConnect.getCourse(1));
-        planC.addCourse(CourseDBConnect.getCourse(1));
-        planC.addCourse(CourseDBConnect.getCourse(1));
-        planC.addCourse(CourseDBConnect.getCourse(1));
-        planC.addCourse(CourseDBConnect.getCourse(1));
+        planC.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
+        planC.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
+        planC.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
+        planC.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
+        planC.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
 
-        planD.addCourse(CourseDBConnect.getCourse(1));
-        planD.addCourse(CourseDBConnect.getCourse(1));
-        planD.addCourse(CourseDBConnect.getCourse(1));
-        planD.addCourse(CourseDBConnect.getCourse(1));
-        planD.addCourse(CourseDBConnect.getCourse(1));
+        planD.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
+        planD.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
+        planD.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
+        planD.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
+        planD.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
 
-        planE.addCourse(CourseDBConnect.getCourse(1));
-        planE.addCourse(CourseDBConnect.getCourse(1));
-        planE.addCourse(CourseDBConnect.getCourse(1));
-        planE.addCourse(CourseDBConnect.getCourse(1));
-        planE.addCourse(CourseDBConnect.getCourse(1));
+        planE.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
+        planE.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
+        planE.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
+        planE.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
+        planE.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
 
         ArrayList<Plan> expected_plans = new ArrayList<Plan>();
         expected_plans.add(planA);
@@ -97,7 +100,7 @@ public class GeneratorTest {
      */
     @Test
     public void isStatTest1() {
-        Course input = CourseDBConnect.getCourse(1);
+        Course input = CourseDBConnect.getCourseDBConnectInstance().getCourse(1);
         Assert.assertEquals(true, Generator.isStat(input));
     }
 
@@ -106,7 +109,7 @@ public class GeneratorTest {
      */
     @Test
     public void isStatTest2() {
-        Course input = CourseDBConnect.getCourse(1);
+        Course input = CourseDBConnect.getCourseDBConnectInstance().getCourse(1);
         Assert.assertEquals(false, Generator.isStat(input));
     }
 
@@ -133,7 +136,7 @@ public class GeneratorTest {
      */
     @Test
     public void isDepthTest1() {
-        Course input = CourseDBConnect.getCourse(1);
+        Course input = CourseDBConnect.getCourseDBConnectInstance().getCourse(1);
         Assert.assertEquals(true, Generator.isDepth(input));
     }
 
@@ -142,7 +145,7 @@ public class GeneratorTest {
      */
     @Test
     public void isDepthTest2() {
-        Course input = CourseDBConnect.getCourse(1);
+        Course input = CourseDBConnect.getCourseDBConnectInstance().getCourse(1);
         Assert.assertEquals(false, Generator.isDepth(input));
     }
 
@@ -151,7 +154,7 @@ public class GeneratorTest {
      */
     @Test
     public void isBreadthTest1() {
-        Course input = CourseDBConnect.getCourse(1);
+        Course input = CourseDBConnect.getCourseDBConnectInstance().getCourse(1);
         Assert.assertEquals(true, Generator.isBreadth(input));
     }
 
@@ -160,7 +163,7 @@ public class GeneratorTest {
      */
     @Test
     public void isBreadthTest2() {
-        Course input = CourseDBConnect.getCourse(1);
+        Course input = CourseDBConnect.getCourseDBConnectInstance().getCourse(1);
         Assert.assertEquals(false, Generator.isBreadth(input));
     }
 
@@ -169,7 +172,7 @@ public class GeneratorTest {
      */
     @Test
     public void inInPlanTest1(){
-        Course input = CourseDBConnect.getCourse(1);
+        Course input = CourseDBConnect.getCourseDBConnectInstance().getCourse(1);
         Plan input2 = new Plan();
         Assert.assertEquals(false,Generator.isInPlan(input, input2));
     }
@@ -179,9 +182,9 @@ public class GeneratorTest {
      */
     @Test
     public void inInPlanTest2(){
-        Course input = CourseDBConnect.getCourse(1);
+        Course input = CourseDBConnect.getCourseDBConnectInstance().getCourse(1);
         Plan input2 = new Plan();
-        input2.addCourse(CourseDBConnect.getCourse(2));
+        input2.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(2));
         Assert.assertEquals(false,Generator.isInPlan(input, input2));
     }
 
@@ -190,9 +193,9 @@ public class GeneratorTest {
      */
     @Test
     public void inInPlanTest3(){
-        Course input = CourseDBConnect.getCourse(1);
+        Course input = CourseDBConnect.getCourseDBConnectInstance().getCourse(1);
         Plan input2 = new Plan();
-        input2.addCourse(CourseDBConnect.getCourse(1));
+        input2.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
         Assert.assertEquals(true,Generator.isInPlan(input, input2));
     }
 
@@ -201,7 +204,7 @@ public class GeneratorTest {
      */
     @Test
     public void inInPlan2Test1(){
-        Course input = CourseDBConnect.getCourse(1);
+        Course input = CourseDBConnect.getCourseDBConnectInstance().getCourse(1);
         Plan input2 = new Plan();
         Assert.assertEquals(false,Generator.isInPlan(input, input2));
     }
@@ -211,9 +214,9 @@ public class GeneratorTest {
      */
     @Test
     public void inInPlan2Test2(){
-        Course input = CourseDBConnect.getCourse(1);
+        Course input = CourseDBConnect.getCourseDBConnectInstance().getCourse(1);
         Plan input2 = new Plan();
-        input2.addCourse(CourseDBConnect.getCourse(2));
+        input2.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(2));
         Assert.assertEquals(false,Generator.isInPlan(input, input2));
     }
 
@@ -222,9 +225,9 @@ public class GeneratorTest {
      */
     @Test
     public void inInPlan2Test3(){
-        Course input = CourseDBConnect.getCourse(1);
+        Course input = CourseDBConnect.getCourseDBConnectInstance().getCourse(1);
         Plan input2 = new Plan();
-        input2.addCourse(CourseDBConnect.getCourse(1));
+        input2.addCourse(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
         Assert.assertEquals(true,Generator.isInPlan(input, input2));
     }
 
@@ -375,8 +378,8 @@ public class GeneratorTest {
     public void noOverlapCoursesTest2() throws Exception {
         String input1 = "13510301120";
         ArrayList<Course> input2 = new ArrayList<Course>();
-        input2.add(CourseDBConnect.getCourse(1));
-        input2.add(CourseDBConnect.getCourse(2));
+        input2.add(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
+        input2.add(CourseDBConnect.getCourseDBConnectInstance().getCourse(2));
         Assert.assertEquals(true, Generator.noOverlapCourses(input1,input2));
     }
 
@@ -387,8 +390,8 @@ public class GeneratorTest {
     public void noOverlapCoursesTest3() throws Exception {
         String input1 = "13510301120";
         ArrayList<Course> input2 = new ArrayList<Course>();
-        input2.add(CourseDBConnect.getCourse(1));
-        input2.add(CourseDBConnect.getCourse(2));
+        input2.add(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
+        input2.add(CourseDBConnect.getCourseDBConnectInstance().getCourse(2));
         Assert.assertEquals(false, Generator.noOverlapCourses(input1,input2));
     }
 
@@ -399,8 +402,8 @@ public class GeneratorTest {
     public void noOverlapCoursesTest4() throws Exception {
         String input1 = "13510301120";
         ArrayList<Course> input2 = new ArrayList<Course>();
-        input2.add(CourseDBConnect.getCourse(1));
-        input2.add(CourseDBConnect.getCourse(2));
+        input2.add(CourseDBConnect.getCourseDBConnectInstance().getCourse(1));
+        input2.add(CourseDBConnect.getCourseDBConnectInstance().getCourse(2));
         Assert.assertEquals(false, Generator.noOverlapCourses(input1,input2));
     }
 }
