@@ -297,6 +297,57 @@ public class UserInfoDBConnect {
         return true;
     }
 
+    //user register
+    public static boolean insertUser(String username, String password){
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        String actual_password = null;
+        try{
+            //Register JDBC driver
+            Class.forName(JDBC_DRIVER);
+
+            //Open a connection
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+            //Execute a query
+            stmt = conn.createStatement();
+            String sql = "INSERT INTO user_information.user_information (user_name,user_password,user_type) VALUES ('"+username+"','"+password+"','1')";
+            rs = stmt.executeQuery(sql);
+
+            //Clean-up environment
+            rs.close();
+            stmt.close();
+            conn.close();
+            return true;
+        }
+        catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }
+        catch(Exception e){
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        }
+        finally{
+            //finally block used to close resources
+            try{
+                if(stmt!=null)
+                    stmt.close();
+            }
+            catch(SQLException se2){
+            }// nothing we can do
+            try{
+                if(conn!=null)
+                    conn.close();
+            }
+            catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+        return false;
+    }
+    
     public static void main(String[] args) {
         for(String s: getCourseCodeTaken("zhizhi"))
             System.out.println(s);

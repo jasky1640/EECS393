@@ -69,7 +69,9 @@ public class Generator {
                         if (isBreadth(C1.get(0))) { // if the course is breadth, check breadth requirement
                             if (satisfyBreadth(C1.get(0), user) == true)
                                 plans.get(0).addCourse(C1.get(0));
+                            
                         }
+                        
                         else if (isDepth(C1.get(0))){ // if the course is depth, check depth requirement
                             if (satisfyDepth(C1.get(0), user) == true)
                                 plans.get(0).addCourse(C1.get(0));
@@ -151,14 +153,15 @@ public class Generator {
         ArrayList<Course> C2 = viableCourses;
 
         for (int k = 0; k < MAX_NUM_COURSES - 1; k++) { // the only difference is that the first course is not in plan1
-            if (C2.size() > 2) {
+            if (C2.size() > 0) {
                 String timeslot1 = plans.get(0).getCourseAt(k).getTimeSlot();
                 C2 = noOverlapCourses(timeslot1, C2);
-                if (C2.size() > 2) {
+                if (C2.size() > 0) {
                     if (isInPlan(C2.get(0), plans.get(1)) == false) {
                         if (isBreadth(C2.get(0))) {
                             if (satisfyBreadth(C2.get(0), user) == true)
                                 plans.get(1).addCourse(C2.get(0));
+                          
                         }
                         else if (isDepth(C2.get(0)))
                         {
@@ -168,10 +171,12 @@ public class Generator {
                         else if (isStat(C2.get(0))){
                             if (satisfyStat(user) == true)
                                 plans.get(1).addCourse(C2.get(0));
+                 
                         }
                         else if (C2.get(0).getCourseCode() == "MATH201" || C2.get(0).getCourseCode() == "MATH307"){
                             if (hardCode(user) == true)
                                 plans.get(1).addCourse(C2.get(0));
+                          
                         }
                         else
                             plans.get(1).addCourse(C2.get(0));
@@ -198,7 +203,7 @@ public class Generator {
                                         break;
                                     }
                                 }
-                                else if (C1.get(i).getCourseCode() == "MATH201" || C1.get(i).getCourseCode() == "MATH307"){
+                                else if (C2.get(i).getCourseCode() == "MATH201" || C2.get(i).getCourseCode() == "MATH307"){
                                     if (hardCode(user) == true) {
                                         plans.get(1).addCourse(C2.get(i));
                                         break;
@@ -238,10 +243,10 @@ public class Generator {
         }
         ArrayList<Course> C3 = viableCourses;
         for (int m = 0; m < MAX_NUM_COURSES - 1; m++) { // the only difference is that the first course is not in previous plans
-            if (C3.size() > 2) {
+            if (C3.size() > 0) {
                 String timeslot1 = plans.get(2).getCourseAt(m).getTimeSlot();
                 C3 = noOverlapCourses(timeslot1, C3);
-                if (C3.size() > 2) {
+                if (C3.size() > 0) {
                     if (isInPlan(C3.get(0), plans.get(2)) == false) {
                         if (isBreadth(C3.get(0))) {
                             if (satisfyBreadth(C3.get(0), user) == true)
@@ -417,10 +422,10 @@ public class Generator {
         }
         ArrayList<Course> C5 = viableCourses;
         for (int g = 0; g < MAX_NUM_COURSES - 1; g++) { // the only difference is that the first course is not in previous plans
-            if (C5.size() > 1) {
+            if (C5.size() > 0) {
                 String timeslot1 = plans.get(0).getCourseAt(g).getTimeSlot();
                 C5 = noOverlapCourses(timeslot1, C5);
-                if (C5.size() > 1) {
+                if (C5.size() > 0) {
                     if (isInPlan(C5.get(0), plans.get(4)) == false) {
                         if (isBreadth(C5.get(0))) {
                             if (satisfyBreadth(C5.get(0), user) == true)
@@ -488,10 +493,14 @@ public class Generator {
         return plans;
     }
 
-    public static void addLPCourses(Plan plan, ArrayList<Course> UserChoice)
+    public static void addLPCourses(ArrayList<Plan> plans, ArrayList<Course> UserChoice)
     {
-        for (int i = plan.getCourseList().size(); i < MAX_NUM_COURSES; i++)
-            plan.addCourse(UserChoice.get(i));
+        for (int j = 0; j < plans.size(); j++) {
+            if (!plans.get(j).isFullPlan()) {
+                for (int i = plans.get(j).getCourseList().size(); i < MAX_NUM_COURSES; i++)
+                    plans.get(j).addCourse(UserChoice.get(i));
+            }
+        }
     }
 
     public static ArrayList<Course> getLPoptions(User user, Plan plan) throws Exception { // Given a not full plan,
@@ -519,18 +528,23 @@ public class Generator {
         ArrayList<Course> C = viableCourses;
         ArrayList<Course> output = new ArrayList<Course>();
 
-        for (int i = 0; i < plan.getNumOfCourses(); i++) {
+        for (int i = 0; i < plan.getCourseList().size(); i++) {
             String timeslot1 = plan.getCourseAt(i).getTimeSlot();
             C = noOverlapCourses(timeslot1, C);
                 if (!isInPlan(C.get(0), plan)) {
                     if (isGroup1(C.get(0))) {
-                        if (satisfyElective(C.get(0), user))
-                            output.add(C.get(0));
+                        if (satisfyElective(C.get(0), user) && i == plan.getCourseList().size() - 1) {
+                        for (int j = 0; j < C.size(); j++)
+                        		output.add(C.get(j));
+                        }
                     }
                     else if (isGroup2(C.get(0))){
-                        if(satisfyGroup2(C.get(0), user) && satisfyElective(C.get(0), user))
-                            output.add(C.get(0));
+                        if(satisfyGroup2(C.get(0), user) && satisfyElective(C.get(0), user) && i == plan.getCourseList().size() - 1) {
+                        	for (int j = 0; j < C.size(); j++) 
+                        		output.add(C.get(j));               
+                        }
                     }
+                    
                 }
             }
         return output;
@@ -825,12 +839,21 @@ public class Generator {
     }
 
     public static void main(String[] args) throws Exception {
-        User xx = new User("jieyu",1);
+        User xx = new User("zhizhi",1);
 
         Instant start = Instant.now();
-        Generator.generate(CourseDBConnect.getCourseDBConnectInstance().getAllHighPriorityCoursesByPriority(), xx);
+        ArrayList<Plan> plans = new ArrayList<Plan> ();
+        plans = Generator.generate(CourseDBConnect.getCourseDBConnectInstance().getAllHighPriorityCoursesByPriority(), xx);
         Instant finish = Instant.now();
         long timeElapsed = Duration.between(start, finish).toMillis();  //in millis
         System.out.println("The execution time is " + timeElapsed / 1000 + " seconds."); //print in seconds
+        
+        System.out.println("");
+        
+        ArrayList<Course> options = Generator.getLPoptions(xx, plans.get(2));
+        for (int i = 0; i < options.size(); i++)
+        	System.out.println(options.get(i));
+        
+        
     }
 }
