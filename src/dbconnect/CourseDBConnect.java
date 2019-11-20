@@ -1295,9 +1295,11 @@ public class CourseDBConnect {
              stmt.close();
              conn.close();
 
+             // Handle prerequisite
              if(prerequisite == null)
                  prerequisite = "";
 
+             // Handle Substitute courses
              String substituteCourseCode = Course.NO_SUBSTITUTES;
              if(courseCode.equals("MATH380")){
                  substituteCourseCode = "STAT312";
@@ -1311,6 +1313,15 @@ public class CourseDBConnect {
              if(courseCode.equals("MATH307")){
                  substituteCourseCode = "MATH201";
              }
+
+             //Handle Course Type
+             if (courseCode.equals("MATH380")||courseCode.equals("STAT312")){
+                 courseType = "000001";
+             }
+             if (!courseCode.equals("MATH380") && !courseCode.equals("STAT312")){
+                 courseType = courseType + "0";
+             }
+
              if(CourseDBConnect.statisticsCourseCodeList.contains(courseCode) || CourseDBConnect.generalCourseCodeList.contains(courseCode)){
                  return new Course(id, credit, 5, courseCode, courseName, timeSlot, prerequisite, courseType, substituteCourseCode);
              }
@@ -1422,7 +1433,7 @@ public class CourseDBConnect {
                  courseName = rs.getString("name");
                  timeSlot = rs.getString("time_slots");
                  prerequisite = rs.getString("prerequisite_courses");
-                 courseType = rs.getString("type");
+                 courseType = rs.getString("type") + "0";
                  if(prerequisite == null)
                      prerequisite = "";
                  output.add(new Course(id, credit, 2, courseCode, courseName, timeSlot, prerequisite, courseType, Course.NO_SUBSTITUTES));
