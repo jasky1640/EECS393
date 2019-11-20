@@ -48,7 +48,7 @@ public class CourseDBConnect {
 
     // JDBC driver name and database URL
     private static final String JDBC_DRIVER = "org.postgresql.Driver";
-    private static final String DB_URL = "jdbc:postgresql://localhost:5432/CSCGS";
+    private static final String DB_URL = "jdbc:postgresql://localhost/CSCGS";
 
     //  Database credentials
     private static final String USER = "postgres";
@@ -1299,9 +1299,11 @@ public class CourseDBConnect {
              stmt.close();
              conn.close();
 
+             // Handle prerequisite
              if(prerequisite == null)
                  prerequisite = "";
 
+             // Handle Substitute courses
              String substituteCourseCode = Course.NO_SUBSTITUTES;
              if(courseCode.equals("MATH380")){
                  substituteCourseCode = "STAT312";
@@ -1315,8 +1317,8 @@ public class CourseDBConnect {
              if(courseCode.equals("MATH307")){
                  substituteCourseCode = "MATH201";
              }
-             
-           //Handle Course Type
+
+             //Handle Course Type
              if (courseCode.equals("MATH380")||courseCode.equals("STAT312")){
                  courseType = "000001";
              }

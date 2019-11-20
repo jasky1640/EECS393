@@ -40,6 +40,7 @@ CREATE TABLE user_information.user_information
     depth character varying(1000) COLLATE pg_catalog."default",
     general character varying(1000) COLLATE pg_catalog."default",
     technical_elective character varying(1000) COLLATE pg_catalog."default",
+    track smallint,
     CONSTRAINT user_information_pkey PRIMARY KEY (user_id)
 )
 
