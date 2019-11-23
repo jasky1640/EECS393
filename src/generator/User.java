@@ -37,11 +37,11 @@ public class User {
         boolean output = false;
         if (course.getPrerequisite().equals(""))
             output = true;
-		else if (course.getPrerequisite.length() <= 7){
+		else if (course.getPrerequisite().length() <= 7){
 			if (UserInfoDBConnect.getCourseCodeTaken(this.getUserName()).contains(course.getPrerequisite()))
 				output = true;
 			}
-        else if (course.getPrerequisite.length() > 7){
+        else if (course.getPrerequisite().length() > 7){
 			if (UserInfoDBConnect.getCourseCodeTaken(this.getUserName()).contains(course.getPrerequisite().substring(0, 7))
 				&& UserInfoDBConnect.getCourseCodeTaken(this.getUserName()).contains(course.getPrerequisite().substring(7)))
 				output = true;
