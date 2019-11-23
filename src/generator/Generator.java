@@ -13,9 +13,6 @@ import java.util.Date;
 public class Generator {
     public static final int MAX_NUM_COURSES = 5;
 
-    public Generator() {
-    }
-
     public static ArrayList<Plan> generate(ArrayList<Course> courses, User user) throws Exception {
         // the input courses should be ranked from high to low priority exactly.
         // initialization
