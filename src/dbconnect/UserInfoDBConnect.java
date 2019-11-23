@@ -347,13 +347,4 @@ public class UserInfoDBConnect {
         }
         return false;
     }
-    
-    public static void main(String[] args) {
-        for(String s: getCourseCodeTaken("zhizhi"))
-            System.out.println(s);
-
-        System.out.println("Jieyu:");
-        for(String s: getCourseCodeTaken("jieyu"))
-            System.out.println(s);
-    }
 }
