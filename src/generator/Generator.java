@@ -47,11 +47,6 @@ public class Generator {
                 viableCourses.add(qualifiedCourses.get(i));
         }
 
-        System.out.println("-----"); // print viable courses for testing purpose
-        for (Course c : viableCourses)
-            System.out.println(c.toString());
-        System.out.println("-----");
-
         // plan1
         plans.get(0).clear();
         System.out.println("plan1");
