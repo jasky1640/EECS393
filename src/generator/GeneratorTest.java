@@ -406,4 +406,69 @@ public class GeneratorTest {
         input2.add(CourseDBConnect.getCourseDBConnectInstance().getCourse(2));
         Assert.assertEquals(true, Generator.noOverlapCourses(input1,input2).size() == 0);
     }
+
+    /**
+     * user takes less courses, plan
+     */
+    @Test
+    public void getLPoptionsTest() {
+        User u1 = new User("zhizhi", 6);
+        Assert.assertNotNull(Generator.generate(CourseDBConnect.getCourseDBConnectInstance().getAllHighPriorityCoursesByPriority(), u1).get(0);)
+    }
+
+    /**
+     * the course is in group1
+     */
+    @Test
+    public void isGroup1Test1(){
+        Course input = CourseDBConnect.getCourseDBConnectInstance().getCourse(46);
+        Assert.assertEquals(true,Generator.isGroup1(input));
+    }
+
+    /**
+     * the course is not in group1
+     */
+    @Test
+    public void isGroup1Test2(){
+        Course input = CourseDBConnect.getCourseDBConnectInstance().getCourse(1);
+        Assert.assertEquals(false,Generator.isGroup1(input));
+    }
+
+    /**
+     * the course is in group2
+     */
+    @Test
+    public void isGroup2Test1(){
+        Course input = CourseDBConnect.getCourseDBConnectInstance().getCourse(71);
+        Assert.assertEquals(true,Generator.isGroup2(input));
+    }
+
+    /**
+     * the course is not in group2
+     */
+    @Test
+    public void isGroup2Test2(){
+        Course input = CourseDBConnect.getCourseDBConnectInstance().getCourse(34);
+        Assert.assertEquals(false,Generator.isGroup2(input));
+    }
+
+    /**
+     * does not satisfy elective
+     */
+    @Test
+    public void satisfyElectiveTest(){
+        User u1 = new User("zhizhi", 6);
+        Course input = CourseDBConnect.getCourseDBConnectInstance().getCourse(34);
+        Assert.assertEquals(false,Generator.satisfyElective(input, u1));
+    }
+
+    /**
+     * deos not satisfy elective
+     */
+    @Test
+    public void satisfyGroup2Test(){
+        User u1 = new User("zhizhi", 6);
+        Course input = CourseDBConnect.getCourseDBConnectInstance().getCourse(34);
+        Assert.assertEquals(false,Generator.satisfyGroup2(input, u1));
+    }
 }
