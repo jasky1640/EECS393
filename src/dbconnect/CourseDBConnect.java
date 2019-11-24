@@ -1473,4 +1473,201 @@ public class CourseDBConnect {
          }
          return null;
      }
+
+    public ArrayList<Course> getElective1Courses(){
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        try{
+            ArrayList<Course> output = new ArrayList<>();
+            int id = -1;
+            int credit = -1;
+            String courseCode = "";
+            String courseName = "";
+            String timeSlot = "";
+            String prerequisite = "";
+            String courseType = "";
+            //Register JDBC driver
+            Class.forName(JDBC_DRIVER);
+
+            //Open a connection
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+            //Execute a query
+            stmt = conn.createStatement();
+            String sql = "SELECT * FROM courses.course Where type = '00111' or type = '00101' or type = '00011' or type = '00001'";
+            rs = stmt.executeQuery(sql);
+
+            //Extract data from result set
+            //Retrieve by column name
+            while (rs.next()){
+                id = rs.getInt("course_id");
+                credit = rs.getInt("credit_hour");
+                courseCode = rs.getString("course_code");
+                courseName = rs.getString("name");
+                timeSlot = rs.getString("time_slots");
+                prerequisite = rs.getString("prerequisite_courses");
+                courseType = rs.getString("type");
+                // Handle prerequisite
+                if(prerequisite == null)
+                    prerequisite = "";
+
+                // Handle Substitute courses
+                String substituteCourseCode = Course.NO_SUBSTITUTES;
+                if(courseCode.equals("MATH380")){
+                    substituteCourseCode = "STAT312";
+                }
+                if(courseCode.equals("STAT312")){
+                    substituteCourseCode = "MATH380";
+                }
+                if(courseCode.equals("MATH201")){
+                    substituteCourseCode = "MATH307";
+                }
+                if(courseCode.equals("MATH307")){
+                    substituteCourseCode = "MATH201";
+                }
+
+                //Handle Course Type
+                if (courseCode.equals("MATH380")||courseCode.equals("STAT312")){
+                    courseType = "000001";
+                }
+                if (!courseCode.equals("MATH380") && !courseCode.equals("STAT312")){
+                    courseType = courseType + "0";
+                }
+                output.add(new Course(id, credit, 1, courseCode, courseName, timeSlot, prerequisite, courseType, substituteCourseCode));
+            }
+            //Clean-up environment
+            rs.close();
+            stmt.close();
+            conn.close();
+            return output;
+        }
+        catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }
+        catch(Exception e){
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        }
+        finally{
+            //finally block used to close resources
+            try{
+                if(stmt!=null)
+                    stmt.close();
+            }
+            catch(SQLException se2){
+            }// nothing we can do
+            try{
+                if(conn!=null)
+                    conn.close();
+            }
+            catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<Course> getElective2Courses(){
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        try{
+            ArrayList<Course> output = new ArrayList<>();
+            int id = -1;
+            int credit = -1;
+            String courseCode = "";
+            String courseName = "";
+            String timeSlot = "";
+            String prerequisite = "";
+            String courseType = "";
+            //Register JDBC driver
+            Class.forName(JDBC_DRIVER);
+
+            //Open a connection
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+            //Execute a query
+            stmt = conn.createStatement();
+            String sql = "SELECT * FROM courses.course Where type = '00002'";
+            rs = stmt.executeQuery(sql);
+
+            //Extract data from result set
+            //Retrieve by column name
+            while (rs.next()){
+                id = rs.getInt("course_id");
+                credit = rs.getInt("credit_hour");
+                courseCode = rs.getString("course_code");
+                courseName = rs.getString("name");
+                timeSlot = rs.getString("time_slots");
+                prerequisite = rs.getString("prerequisite_courses");
+                courseType = rs.getString("type");
+                // Handle prerequisite
+                if(prerequisite == null)
+                    prerequisite = "";
+
+                // Handle Substitute courses
+                String substituteCourseCode = Course.NO_SUBSTITUTES;
+                if(courseCode.equals("MATH380")){
+                    substituteCourseCode = "STAT312";
+                }
+                if(courseCode.equals("STAT312")){
+                    substituteCourseCode = "MATH380";
+                }
+                if(courseCode.equals("MATH201")){
+                    substituteCourseCode = "MATH307";
+                }
+                if(courseCode.equals("MATH307")){
+                    substituteCourseCode = "MATH201";
+                }
+
+                //Handle Course Type
+                if (courseCode.equals("MATH380")||courseCode.equals("STAT312")){
+                    courseType = "000001";
+                }
+                if (!courseCode.equals("MATH380") && !courseCode.equals("STAT312")){
+                    courseType = courseType + "0";
+                }
+                output.add(new Course(id, credit, 1, courseCode, courseName, timeSlot, prerequisite, courseType, substituteCourseCode));
+            }
+            //Clean-up environment
+            rs.close();
+            stmt.close();
+            conn.close();
+            return output;
+        }
+        catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }
+        catch(Exception e){
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        }
+        finally{
+            //finally block used to close resources
+            try{
+                if(stmt!=null)
+                    stmt.close();
+            }
+            catch(SQLException se2){
+            }// nothing we can do
+            try{
+                if(conn!=null)
+                    conn.close();
+            }
+            catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    public static void main(String[] args) {
+        for (Course sb : CourseDBConnect.getCourseDBConnectInstance().getElective1Courses())
+            System.out.println(sb.toString());
+        for (Course sb : CourseDBConnect.getCourseDBConnectInstance().getElective2Courses())
+            System.out.println(sb.toString());
+    }
 }

@@ -497,12 +497,9 @@ public class Generator {
 
     public static ArrayList<Course> getLPoptions(User user, Plan plan) throws Exception { // Given a not full plan,
         // this method should return viable low priority courses that the user could choose from
-        ArrayList<Integer> Group1CourseIDs = CourseDBConnect.getCourseDBConnectInstance().getElectiveGroup1CourseList();
-        ArrayList<Integer> Group2CourseIDs = CourseDBConnect.getCourseDBConnectInstance().getElectiveGroup2CourseList();
-        Group1CourseIDs.addAll(Group2CourseIDs);
-        ArrayList<Course> Group1Courses = new ArrayList<>();
-        for (int i = 0; i < Group1CourseIDs.size(); i++)
-            Group1Courses.add(CourseDBConnect.getCourseDBConnectInstance().getCourse(Group1CourseIDs.get(i)));
+
+        ArrayList<Course> Group1Courses = CourseDBConnect.getCourseDBConnectInstance().getElective1Courses();
+        Group1Courses.addAll(CourseDBConnect.getCourseDBConnectInstance().getElective2Courses());
 
         ArrayList<Course> qualifiedCourses = new ArrayList<>();
         ArrayList<String> courseTaken = UserInfoDBConnect.getCourseCodeTaken(user.getUserName());

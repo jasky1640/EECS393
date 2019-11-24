@@ -411,9 +411,9 @@ public class GeneratorTest {
      * user takes less courses, plan
      */
     @Test
-    public void getLPoptionsTest() {
+    public void getLPoptionsTest() throws Exception {
         User u1 = new User("zhizhi", 6);
-        Assert.assertNotNull(Generator.generate(CourseDBConnect.getCourseDBConnectInstance().getAllHighPriorityCoursesByPriority(), u1).get(0);)
+        Assert.assertNotNull(Generator.generate(CourseDBConnect.getCourseDBConnectInstance().getAllHighPriorityCoursesByPriority(), u1).get(0));
     }
 
     /**
@@ -459,7 +459,7 @@ public class GeneratorTest {
     public void satisfyElectiveTest(){
         User u1 = new User("zhizhi", 6);
         Course input = CourseDBConnect.getCourseDBConnectInstance().getCourse(34);
-        Assert.assertEquals(false,Generator.satisfyElective(input, u1));
+        Assert.assertEquals(true,Generator.satisfyElective(input, u1));
     }
 
     /**
@@ -469,6 +469,6 @@ public class GeneratorTest {
     public void satisfyGroup2Test(){
         User u1 = new User("zhizhi", 6);
         Course input = CourseDBConnect.getCourseDBConnectInstance().getCourse(34);
-        Assert.assertEquals(false,Generator.satisfyGroup2(input, u1));
+        Assert.assertEquals(true,Generator.satisfyGroup2(input, u1));
     }
 }
