@@ -188,6 +188,7 @@ th.specalt {
      
      <%
           List<String> list = DBCRUD.ListUniqueCourseCode();
+		  Collections.sort(list);
      	  for(int i=0; i<list.size(); i++){
      		 String course_code = list.get(i);
      %>
