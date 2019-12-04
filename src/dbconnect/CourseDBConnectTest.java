@@ -1,7 +1,8 @@
 package dbconnect;
 
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+
 
 public class CourseDBConnectTest {
 

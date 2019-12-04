@@ -67,6 +67,10 @@ public class Course
     {
         return timeSlot;
     }
+    
+    public int getCredit() {
+    	return credit;
+    }
 
     public String getPrerequisite()
     {

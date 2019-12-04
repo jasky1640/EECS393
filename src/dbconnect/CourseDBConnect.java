@@ -45,14 +45,14 @@ public class CourseDBConnect {
     public static CourseDBConnect getCourseDBConnectInstance() {
         return CourseDBConnectSingleton;
     }
-
+    
     // JDBC driver name and database URL
-    private static final String JDBC_DRIVER = "org.postgresql.Driver";
-    private static final String DB_URL = "jdbc:postgresql://localhost/CSCGS";
+    private static final String JDBC_DRIVER = AppData.JDBC_DRIVER;
+    private static final String DB_URL = AppData.DB_URL;
 
     //  Database credentials
-    private static final String USER = "postgres";
-    private static final String PASS = "Jasky981013#";
+    private static final String USER = AppData.USER;
+    private static final String PASS = AppData.PASS;
 
     private CourseDBConnect(){}
 
