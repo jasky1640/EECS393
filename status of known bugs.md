@@ -50,4 +50,10 @@ https://github.com/jasky1640/EECS393/issues
 
    Status: Solved at commit 7a49b533b6fa4f1f06fef8dc87a4eddfd9a28971
 
-8. 
+
+
+------
+
+###### Future Enhancements
+
+1. 
